@@ -1,0 +1,2 @@
+class CardTable < ApplicationRecord
+end

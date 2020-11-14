@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @board.name %>
+</p>
+
+<p>
+  <strong>Creator:</strong>
+  <%= @board.creator %>
+</p>
+
+<p>
+  <strong>Private:</strong>
+  <%= @board.private %>
+</p>
+
+<p>
+  <strong>Custom url:</strong>
+  <%= @board.custom_url %>
+</p>
+
+<%= link_to 'Edit', edit_board_path(@board) %> |
+<%= link_to 'Back', boards_path %>

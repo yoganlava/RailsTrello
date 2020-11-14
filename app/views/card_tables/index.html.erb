@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Card Tables</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column index</th>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @card_tables.each do |card_table| %>
+      <tr>
+        <td><%= card_table.column_index %></td>
+        <td><%= card_table.name %></td>
+        <td><%= link_to 'Show', card_table %></td>
+        <td><%= link_to 'Edit', edit_card_table_path(card_table) %></td>
+        <td><%= link_to 'Destroy', card_table, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Card Table', new_card_table_path %>

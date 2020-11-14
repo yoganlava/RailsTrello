@@ -1,0 +1,2 @@
+class BoardAccess < ApplicationRecord
+end
