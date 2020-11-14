@@ -1,6 +1,6 @@
-class CreateCards < ActiveRecord::Migration[5.2]
+class CreateCard < ActiveRecord::Migration[5.2]
   def change
-    create_table :cards do |t|
+    create_table :card do |t|
       t.integer :parent_id
       t.string :name
       t.boolean :completed

@@ -1,6 +1,6 @@
-class CreateBoards < ActiveRecord::Migration[5.2]
+class CreateBoard < ActiveRecord::Migration[5.2]
   def change
-    create_table :boards do |t|
+    create_table :board do |t|
       t.string :name
       t.integer :creator
       t.boolean :private

@@ -14,7 +14,10 @@
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-
+import axios from 'axios';
+import Vue from 'vue';
 console.log('Hello World from Webpacker')
-
+Vue.prototype.$axios = axios.create({
+    baseURL: 'http://localhost:3000/api'
+});
 import './hello_vue'

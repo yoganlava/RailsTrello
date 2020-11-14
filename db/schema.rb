@@ -15,14 +15,7 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "board_accesses", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "board_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "boards", force: :cascade do |t|
+  create_table "board", force: :cascade do |t|
     t.string "name"
     t.integer "creator"
     t.boolean "private"
@@ -31,14 +24,14 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "card_tables", force: :cascade do |t|
-    t.integer "column_index"
-    t.string "name"
+  create_table "board_access", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "board_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "cards", force: :cascade do |t|
+  create_table "card", force: :cascade do |t|
     t.integer "parent_id"
     t.string "name"
     t.boolean "completed"
@@ -49,7 +42,14 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "card_table", force: :cascade do |t|
+    t.integer "column_index"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user", force: :cascade do |t|
     t.string "email"
     t.boolean "verified"
     t.string "username"
