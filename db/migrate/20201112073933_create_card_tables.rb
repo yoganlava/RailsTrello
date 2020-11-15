@@ -1,6 +1,6 @@
-class CreateCardTable < ActiveRecord::Migration[5.2]
+class CreateCardTables < ActiveRecord::Migration[5.2]
   def change
-    create_table :card_table do |t|
+    create_table :card_tables do |t|
       t.integer :column_index
       t.string :name
 

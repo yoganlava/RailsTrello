@@ -1,17 +1,17 @@
 require "application_system_test_case"
 
-class UsersTest < ApplicationSystemTestCase
+class UserTest < ApplicationSystemTestCase
   setup do
-    @user = users(:one)
+    @user = user(:one)
   end
 
   test "visiting the index" do
-    visit users_url
-    assert_selector "h1", text: "Users"
+    visit user_url
+    assert_selector "h1", text: "User"
   end
 
   test "creating a User" do
-    visit users_url
+    visit user_url
     click_on "New User"
 
     fill_in "Created at", with: @user.created_at
@@ -28,7 +28,7 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "updating a User" do
-    visit users_url
+    visit user_url
     click_on "Edit", match: :first
 
     fill_in "Created at", with: @user.created_at
@@ -45,7 +45,7 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "destroying a User" do
-    visit users_url
+    visit user_url
     page.accept_confirm do
       click_on "Destroy", match: :first
     end

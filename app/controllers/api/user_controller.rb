@@ -5,12 +5,16 @@ module Api
     # GET /users
     # GET /users.json
     def index
-      @users = User.all
+      # @users = User.all
+      puts "test"
+      render json: {error: "User doesn't exist"}, status: 404
     end
 
     # GET /users/1
     # GET /users/1.json
     def show
+      puts "test"
+      render json: ["User doesn't exist"], status: 404
     end
 
     # GET /users/new
@@ -25,12 +29,12 @@ module Api
     # POST /users
     # POST /users.json
     def create
+      puts user_params
       @user = User.new(user_params)
 
       respond_to do |format|
         if @user.save
-          format.html { redirect_to @user, notice: 'User was successfully created.' }
-          format.json { render :show, status: :created, location: @user }
+          render json: {message: "User created"}, status: 200
         else
           format.html { render :new }
           format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -38,8 +42,6 @@ module Api
       end
     end
 
-    # PATCH/PUT /users/1
-    # PATCH/PUT /users/1.json
     def update
       respond_to do |format|
         if @user.update(user_params)
@@ -65,12 +67,12 @@ module Api
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_user
-        @user = User.find(params[:id])
+        # @user = User.find(params[:id])
       end
 
       # Only allow a list of trusted parameters through.
       def user_params
-        params.require(:user).permit(:id, :email, :verified, :username, :password, :created_at, :updated_at)
+        params.require(:user).permit(:id, :email, :username, :password)
       end
   end
 end

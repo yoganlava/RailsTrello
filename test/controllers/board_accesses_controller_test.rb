@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class BoardAccessesControllerTest < ActionDispatch::IntegrationTest
+class BoardAccessControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @board_access = board_accesses(:one)
+    @board_access = board_access(:one)
   end
 
   test "should get index" do
-    get board_accesses_url
+    get board_access_url
     assert_response :success
   end
 
@@ -17,7 +17,7 @@ class BoardAccessesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create board_access" do
     assert_difference('BoardAccess.count') do
-      post board_accesses_url, params: { board_access: { board_id: @board_access.board_id, user_id: @board_access.user_id } }
+      post board_access_url, params: { board_access: { board_id: @board_access.board_id, user_id: @board_access.user_id } }
     end
 
     assert_redirected_to board_access_url(BoardAccess.last)
@@ -43,6 +43,6 @@ class BoardAccessesControllerTest < ActionDispatch::IntegrationTest
       delete board_access_url(@board_access)
     end
 
-    assert_redirected_to board_accesses_url
+    assert_redirected_to board_access_url
   end
 end

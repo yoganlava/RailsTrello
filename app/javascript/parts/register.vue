@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 export default {
   methods: {
     register: function() {
       console.log("Registered")
-      console.log(process.env);
+      // this.$axios.post("")
     }
   }
 };
