@@ -1,5 +1,6 @@
 module Api
   class BoardController < ApplicationController
+    before_action :authenticate_user
     before_action :set_board, only: [:show, :edit, :update, :destroy]
 
     # GET /boards

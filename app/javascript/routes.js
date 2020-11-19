@@ -14,6 +14,16 @@ const routes = [{
         component: () =>
             import ("./parts/register"),
     },
+    {
+        path: "/home",
+        component: () =>
+            import ("./parts/home"),
+    },
+    {
+        path: "/board/:id",
+        component: () =>
+            import ("./parts/board/_id.vue")
+    }
 ];
 
 export default new VueRouter({

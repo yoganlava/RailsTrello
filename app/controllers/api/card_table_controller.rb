@@ -1,5 +1,6 @@
 module Api
   class CardTableController < ApplicationController
+    before_action :authenticate_user
     before_action :set_card_table, only: [:show, :edit, :update, :destroy]
 
     # GET /card_tables
