@@ -36,25 +36,26 @@
 
 <script>
 import $ from "jquery";
+import { ajaxRequest } from "../plugins/utils";
+import Cookie from "js-cookie";
 export default {
   data: () => ({
     email: "",
     password: "",
   }),
   methods: {
-    login: function() {
+    login: async function() {
       console.log("Login");
-      $.ajax({
-        type: "POST",
-        url: "http://localhost:3000/user_token",
-        data: {
-          auth: { email: this.email, password: this.password },
-        },
-        success: (res) => {
-          console.log(data);
-        },
-        dataType: "json",
-      });
+      let data = await ajaxRequest("/user_token", {
+        auth: { email: this.email, password: this.password },
+      },
+      "POST");
+      console.log(data);
+      if ($.isEmptyObject(data)){
+        console.log("WRONG LOGIN")
+        return
+      }
+      Cookie.set("jwt", data.jwt);
     },
   },
 };

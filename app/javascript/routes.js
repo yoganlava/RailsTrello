@@ -22,7 +22,7 @@ const routes = [{
     {
         path: "/board/:id",
         component: () =>
-            import ("./parts/board/_id.vue")
+            import ("./parts/board/_id")
     }
 ];
 

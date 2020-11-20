@@ -1,7 +1,7 @@
 module Api
   class BoardController < ApplicationController
-    before_action :authenticate_user
-    before_action :set_board, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_user, only: [:new, :update]
+    # before_action :set_board, only: [:show, :edit, :update, :destroy]
 
     # GET /boards
     # GET /boards.json
@@ -12,6 +12,13 @@ module Api
     # GET /boards/1
     # GET /boards/1.json
     def show
+      board = Board.find_by(board_params)
+      if board == nil
+        render json: {error: "No board found"}, status: 404
+        return
+      end
+      render json: board, status: 200
+      return
     end
 
     # GET /boards/new
@@ -64,14 +71,7 @@ module Api
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_board
-        @board = Board.find(params[:id])
-      end
-
-      # Only allow a list of trusted parameters through.
       def board_params
-        params.require(:board).permit(:name, :creator, :private, :custom_url)
       end
   end
 end
