@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :board
     resources :card
-    resources :card_table
+    # resources :card_table
+    get 'get_card_tables' => 'card_table#get_card_tables'
+    get 'get_cards' => 'card#get_cards'
     resources :user
     resources :user_token
   end

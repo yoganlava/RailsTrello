@@ -1,6 +1,6 @@
 module Api
   class CardTableController < ApplicationController
-    before_action :authenticate_user
+    # before_action :authenticate_user
     before_action :set_card_table, only: [:show, :edit, :update, :destroy]
 
     # GET /card_tables
@@ -15,7 +15,7 @@ module Api
     end
 
     def get_card_tables
-      tables = CardTable.find_by(board_id: params[:id])
+      tables = CardTable.where(board_id: params[:id])
       if tables == nil
         render json: {error: "No card tables"}, status: 404
         return

@@ -1,7 +1,7 @@
 module Api
   class CardController < ApplicationController
-    before_action :authenticate_user
-    before_action :set_card, only: [:show, :edit, :update, :destroy]
+    # before_action :authenticate_user
+    # before_action :set_card, only: [:show, :edit, :update, :destroy]
 
     # GET /cards
     # GET /cards.json
@@ -12,6 +12,16 @@ module Api
     # GET /cards/1
     # GET /cards/1.json
     def show
+    end
+
+    def get_cards
+      cards = Card.where(parent_id: params[:id])
+      if cards == nil
+        render json: {error: "No cards"}, status: 404
+        return
+      end
+      render json: cards, status: 200
+      return
     end
 
     # GET /cards/new

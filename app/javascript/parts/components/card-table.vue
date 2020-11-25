@@ -2,6 +2,7 @@
   <div class="card-table">
     <p class="card-title">{{ name }}</p>
     <div class="card-list">
+      <draggable v-model="cards" @start="drag=true" @end="drag=false">
       <div
         v-for="(card, index) in cards"
         :key="index"
@@ -11,11 +12,12 @@
         <p>{{ card.name }}</p>
         <input type="checkbox" class="checkbox" :value="card.completed" />
       </div>
+      </draggable>
     </div>
     <button
       class="button is-link is-inverted is-outlined"
       style="text-color: black"
-      @click="save"
+      @click="createCard"
     >
       New Card
     </button>
@@ -23,16 +25,29 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import draggable from 'vuedraggable';
 export default {
   props: ["name", "cards"],
   methods: {
     save: function() {
       console.log("sasdasd");
     },
+    createCard: function() {
+      let size = Object.keys(this.cards).length;
+
+      Vue.set(this.cards, size, {
+        name: "",
+        description: ""
+      });
+    },
     openCard: function() {
       console.log("open");
     },
   },
+  components: {
+    draggable
+  }
 };
 </script>
 

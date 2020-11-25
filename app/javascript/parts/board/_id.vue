@@ -11,9 +11,19 @@
         Save
       </button>
     </div>
-    <div >
-      <draggable v-model="board" @start="drag=true" @end="drag=false" class="board-content">
-        <card-table v-for="item in board" :key="item" :name="item.name" :cards="item.cards"></card-table>
+    <div>
+      <draggable
+        v-model="board"
+        @start="drag = true"
+        @end="drag = false"
+        class="board-content"
+      >
+        <card-table
+          v-for="item in board"
+          :key="item"
+          :name="item.name"
+          :cards="item.cards"
+        ></card-table>
       </draggable>
       <!-- <div class="card-table">
         <p class="card-title">Name</p>
@@ -38,62 +48,13 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import draggable from 'vuedraggable'
+import Vue from "vue";
+import draggable from "vuedraggable";
 import { ajaxRequest } from "../../plugins/utils";
 export default {
   data: () => ({
     name: "b2 QWD",
-    board: [
-      {
-        name: "T1",
-        cards: {
-          0: {
-            name: "baby",
-            description: "AIODJAS",
-            completed: false,
-          },
-          1: {
-            name: "T2",
-            description: "lOREM",
-            completed: false,
-          },
-        },
-      },
-      {
-        name: "OAKODAKSODKAOSDKO",
-        cards: {
-          0: {
-            name: "",
-            description: "",
-            completed: false,
-          },
-          1: {
-            name: "",
-            description: "",
-          },
-          2: {
-            name: "",
-            description: "",
-            completed: false,
-          },
-          3: {
-            name: "",
-            description: "",
-          },
-          2: {
-            name: "IJSIDJASD",
-            cards: {
-              0: {
-                name: "",
-                description: "UU=ASASD",
-                completed: false,
-              },
-            },
-          },
-        },
-      },
-    ],
+    board: [],
   }),
   async mounted() {
     console.log(this.$route.params.id);
@@ -102,36 +63,52 @@ export default {
 
     // let tables = await ajaxRequest(`/`)
     console.log(this.board);
+    this.generateBoard();
   },
   methods: {
     createTable: function() {
       console.log(this.board);
       let size = Object.keys(this.board).length;
-      // this.board[size] = {
-      //   name: "",
-      //   cards: {},
-      // };
-      // Vue.set(this.board, size, {
-      //   name: "",
-      //   cards: {},
-      // });
+      Vue.set(this.board, size, {
+        name: "",
+        cards: {},
+      });
       // this.$nuxt.refresh()
     },
     createCard: function(tableID) {
       let size = Object.keys(this.board[tableID].cards).length;
-      this.board[tableID].cards[size] = {
-        name: "",
-        description: "",
-        completed: false,
-      };
+      // this.board[tableID].cards[size] = {
+      //   name: "",
+      //   description: "",
+      //   completed: false,
+      // };
     },
     save: function() {
       console.log("teetet");
     },
+    generateBoard: async function() {
+      this.board = await ajaxRequest(
+        "/get_card_tables",
+        {
+          id: this.$route.params.id,
+        },
+        "GET"
+      );
+      this.board.forEach(async (table) => {
+        Vue.set(table, "cards", await ajaxRequest(
+          "/get_cards",
+          {
+            id: table.id,
+          },
+          "GET"
+        ))
+        // table.cards = ;
+      });
+    },
   },
   components: {
     CardTable: () => import("../components/card-table"),
-    draggable
+    draggable,
   },
 };
 </script>
