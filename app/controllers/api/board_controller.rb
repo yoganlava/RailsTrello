@@ -1,6 +1,6 @@
 module Api
   class BoardController < ApplicationController
-    before_action :authenticate_user, only: [:new, :update]
+    before_action :authenticate_user, only: [:new, :create, :update]
     # before_action :set_board, only: [:show, :edit, :update, :destroy]
 
     # GET /boards
@@ -12,7 +12,7 @@ module Api
     # GET /boards/1
     # GET /boards/1.json
     def show
-      board = Board.find_by(board_params)
+      board = Board.find_by(id: params[:id])
       if board == nil
         render json: {error: "No board found"}, status: 404
         return
@@ -33,16 +33,15 @@ module Api
     # POST /boards
     # POST /boards.json
     def create
-      @board = Board.new(board_params)
+      args = board_params
+      args["creator"] = current_user.id
+      @board = Board.new(args)
 
-      respond_to do |format|
-        if @board.save
-          format.html { redirect_to @board, notice: 'Board was successfully created.' }
-          format.json { render :show, status: :created, location: @board }
-        else
-          format.html { render :new }
-          format.json { render json: @board.errors, status: :unprocessable_entity }
-        end
+      begin
+        @board.save
+        render json: {message: "Board created"}, status: 200
+      rescue Exception => e
+        render json: {error: "Try another name"}, status: 200
       end
     end
 
@@ -71,7 +70,13 @@ module Api
     end
 
     private
-      def board_params
-      end
+    # def set_board
+    #   @board = Board.find(params[:id])
+    # end
+
+    def board_params
+      params.require(:board).permit(:name, :custom_url, :color, :image, :private)
+    end
+
   end
 end

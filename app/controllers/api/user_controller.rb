@@ -1,6 +1,5 @@
 module Api
   class UserController < ApplicationController
-    before_action :authenticate_user
     before_action :set_user, only: [:show, :edit, :update, :destroy]
 
     # GET /users
@@ -30,17 +29,20 @@ module Api
     # POST /users
     # POST /users.json
     def create
-      puts user_params
+      if not !!(user_params["email"] =~ /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i)
+        render json: {error: "Invalid email"}, status: 200
+        return
+      end
+      user_params["verified"] = 0
       @user = User.new(user_params)
 
-      respond_to do |format|
-        if @user.save
-          render json: {message: "User created"}, status: 200
-        else
-          format.html { render :new }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+      begin
+        @user.save
+        render json: {message: "User created"}, status: 200
+      rescue Exception => e
+        render json: {error: "Try another email"}, status: 200
       end
+
     end
 
     def update
@@ -73,7 +75,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def user_params
-        params.require(:user).permit(:id, :email, :username, :password)
+        params.require(:user).permit(:id, :email, :password)
       end
   end
 end

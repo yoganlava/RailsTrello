@@ -1,7 +1,8 @@
 import $ from 'jquery';
+import { toast } from 'bulma-toast';
 import Cookie from 'js-cookie';
 
-export async function ajaxRequest(url, data, type) {
+export async function ajaxRequest(url, data = {}, type) {
     let options = {
         type: type,
         url: `/api${url}` + (type === "GET" ? $.param(data) : ""),
@@ -17,4 +18,13 @@ export async function ajaxRequest(url, data, type) {
         console.log(e);
         return {}
     }
+}
+
+export function toastData(data) {
+    toast({
+        message: data.message ? data.message : data.error,
+        type: data.message ? "is-success" : "is-danger",
+        dismissible: true
+    });
+    console.log("toast")
 }

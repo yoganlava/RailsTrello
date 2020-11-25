@@ -9,6 +9,10 @@
       <section class="modal-card-body">
         <p>Name</p>
         <input class="input" type="text" placeholder="Name" v-model="name" />
+        <p>Colour</p>
+        <input class="input" type="text" placeholder="Colour" v-model="color" />
+        <p>Image Cover</p>
+        <input class="input" type="text" placeholder="Cover" v-model="image" />
         <p>Custom URL</p>
         <input
           class="input"
@@ -18,17 +22,28 @@
         />
         <div class="control">
           <label class="radio">
-            <input type="radio" :v-model="this.private" :value="true" />
+            <input
+              type="radio"
+              name="private"
+              :v-model="this.private"
+              :value="true"
+            />
             Private
           </label>
           <label class="radio">
-            <input type="radio" :v-model="this.private" :value="false" />
+            <input
+              type="radio"
+              :v-model="this.private"
+              :value="false"
+              name="private"
+              checked
+            />
             Public
           </label>
         </div>
       </section>
       <footer class="modal-card-foot is-centered edit-footer">
-        <button class="button is-success">Create</button>
+        <button class="button is-success" @click="createBoard">Create</button>
         <button class="button" @click="toggle">Cancel</button>
       </footer>
     </div>
@@ -36,19 +51,43 @@
 </template>
 
 <script>
+import { ajaxRequest, toastData } from "../../plugins/utils";
+
 export default {
   props: ["value"],
   data: () => ({
     name: "",
     custom_url: "",
+    color: "",
+    image: "",
     private: false,
   }),
   methods: {
     toggle: function() {
       this.$emit("input", !this.value);
     },
+    createBoard: async function() {
+      let data = await ajaxRequest(
+        "/board",
+        {
+          board: {
+            name: this.name,
+            custom_url: this.custom_url,
+            color: this.color,
+            image: this.image,
+            private: this.private,
+          },
+        },
+        "POST"
+      );
+      toastData(data);
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.modal-card-body {
+  line-height: 100px;
+}
+</style>

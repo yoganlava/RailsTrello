@@ -14,6 +14,16 @@ module Api
     def show
     end
 
+    def get_card_tables
+      tables = CardTable.find_by(board_id: params[:id])
+      if tables == nil
+        render json: {error: "No card tables"}, status: 404
+        return
+      end
+      render json: tables, status: 200
+      return
+    end
+
     # GET /card_tables/new
     def new
       @card_table = CardTable.new

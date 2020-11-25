@@ -3,15 +3,25 @@
     <div class="user-form">
       <h1 class="title" style="text-align: center">Register</h1>
       <div class="field">
-        <label class="label">Username</label>
+        <label class="label">Email</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Username" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Username"
+            v-model="email"
+          />
         </div>
       </div>
       <div class="field">
         <label class="label">Password</label>
         <div class="control">
-          <input class="input" type="password" placeholder="Password" />
+          <input
+            class="input"
+            type="password"
+            placeholder="Password"
+            v-model="password"
+          />
         </div>
       </div>
       <div class="control center-button">
@@ -25,14 +35,25 @@
 </template>
 
 <script>
-
+import { ajaxRequest, toastData } from "../plugins/utils";
 export default {
+  data: () => ({
+    email: "",
+    password: "",
+  }),
   methods: {
-    register: function() {
-      console.log("Registered")
-      // this.$axios.post("")
-    }
-  }
+    register: async function() {
+      console.log("Registered");
+      let data = await ajaxRequest(
+        "/user",
+        {
+          user: { email: this.email, password: this.password },
+        },
+        "POST"
+      );
+      toastData(data);
+    },
+  },
 };
 </script>
 

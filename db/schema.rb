@@ -25,13 +25,18 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
   create_table "boards", force: :cascade do |t|
     t.string "name"
     t.integer "creator"
+    t.string "color"
+    t.string "image"
     t.boolean "private"
     t.string "custom_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["custom_url"], name: "index_boards_on_custom_url", unique: true
+    t.index ["name", "creator"], name: "index_boards_on_name_and_creator", unique: true
   end
 
   create_table "card_tables", force: :cascade do |t|
+    t.integer "board_id"
     t.integer "column_index"
     t.string "name"
     t.datetime "created_at", null: false
@@ -52,10 +57,10 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.boolean "verified"
-    t.string "username"
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end

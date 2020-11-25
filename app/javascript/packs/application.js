@@ -7,31 +7,30 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-import axios from 'axios';
-import Vue from 'vue';
-import App from '../app.vue'
-import router from '../routes'
-import Route from '../plugins/router'
-console.log('Hello World from Webpacker')
-Vue.prototype.$axios = axios.create({
-    baseURL: 'http://localhost:3000/api'
-});
 
-document.addEventListener('DOMContentLoaded', () => {
+import Vue from "vue";
+import App from "../app.vue";
+import router from "../routes";
+import Route from "../plugins/router";
+// import Toast from '../plugins/toast';
+console.log("Hello World from Webpacker");
+
+document.addEventListener("DOMContentLoaded", () => {
     const app = new Vue({
-        render: h => h(App),
+        render: (h) => h(App),
         router,
         components: {
-            Route
-        }
-    }).$mount()
-    document.body.appendChild(app.$el)
-    console.log(app)
-})
+            Route,
+            // Toast
+        },
+    }).$mount();
+    // app.$toasted
+    document.body.appendChild(app.$el);
+    console.log(app);
+});
