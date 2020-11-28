@@ -3,31 +3,52 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">{{ card.name }}</p>
+        <input type="text" v-model="name" class="input"/>
         <button class="delete" aria-label="close" @click="toggle"></button>
       </header>
       <section class="modal-card-body">
-        <p>{{ card.description }}</p>
+        <textarea class="textarea" v-model="description"></textarea>
       </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" @click="save">Save</button>
+      </footer>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
 export default {
   props: ["value", "card"],
+  data: () => ({
+    name: "",
+    description: ""
+  }),
   methods: {
     toggle: function() {
       this.$emit("input", !this.value);
     },
+    save: function() {
+      Vue.set(this.card, "name", this.name);
+      Vue.set(this.card, "description", this.description);
+      this.toggle();
+    }
   },
+  watch:{
+    value: function() {
+      this.name = this.card.name;
+      this.description = this.card.description;
+    }
+  }
 };
 </script>
 
 <style scoped>
 .modal-card-body {
   line-height: 100px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+}
+
+.modal-card-foot {
+  text-align: center;
 }
 </style>
