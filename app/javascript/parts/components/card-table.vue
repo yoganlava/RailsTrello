@@ -2,16 +2,22 @@
   <div class="card-table">
     <p class="card-title">{{ name }}</p>
     <div class="card-list">
-      <draggable v-model="cards" @start="drag=true" @end="drag=false">
-      <div
-        v-for="(card, index) in cards"
-        :key="index"
-        class="card"
-        @click="openCard(card)"
+      <draggable
+        :list="cards"
+        group="cards"
+        v-bind="dragOptions"
+        @start="drag = true"
+        @end="drag = false"
       >
-        <p>{{ card.name }}</p>
-        <input type="checkbox" class="checkbox" :value="card.completed" />
-      </div>
+        <div
+          v-for="(card, index) in cards"
+          :key="index"
+          class="card"
+          @click="openCard(card)"
+        >
+          <p>{{ card.name }}</p>
+          <input type="checkbox" class="checkbox" :value="card.completed" />
+        </div>
       </draggable>
     </div>
     <button
@@ -25,10 +31,17 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import draggable from 'vuedraggable';
+import Vue from "vue";
+import draggable from "vuedraggable";
 export default {
   props: ["name", "cards"],
+  data: () => ({
+    dragOptions: {
+      animation: 200,
+      disabled: false,
+      ghostClass: "ghost",
+    },
+  }),
   methods: {
     save: function() {
       console.log("sasdasd");
@@ -37,20 +50,18 @@ export default {
       let size = Object.keys(this.cards).length;
 
       Vue.set(this.cards, size, {
-        name: "",
-        description: ""
+        name: "New card",
+        description: "Example Description",
       });
     },
     openCard: function(card) {
       console.log("open");
-      console.log(this.$parent);
-      console.log(this.$parent.openCard)
-      this.$parent.openCard(card);
+      this.$parent.$parent.openCard(card);
     },
   },
   components: {
-    draggable
-  }
+    draggable,
+  },
 };
 </script>
 
@@ -89,5 +100,10 @@ export default {
 .is-outlined {
   border-color: #605959 !important;
   color: #605959 !important;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>
