@@ -22,8 +22,13 @@ const routes = [{
     {
         path: "/board/:id",
         component: () =>
-            import ("./parts/board/_id")
-    }
+            import ("./parts/board/_id"),
+    },
+    {
+        path: "/contact",
+        component: () =>
+            import ("./parts/contact"),
+    },
 ];
 
 export default new VueRouter({

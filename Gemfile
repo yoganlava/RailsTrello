@@ -61,3 +61,4 @@ gem 'vueonrails', '~> 1.x'
 gem "bulma-rails", ">= 0.8.0"
 gem 'knock'
 gem 'bcrypt', '~> 3.1.7'
+gem 'dotenv-rails'

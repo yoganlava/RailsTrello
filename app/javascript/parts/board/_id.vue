@@ -1,5 +1,6 @@
 <template>
   <div>
+    <card-modal :card="currentCard" v-model="showModal"></card-modal>
     <div class="board-details">
       <h1>{{ name }}</h1>
     </div>
@@ -20,7 +21,7 @@
       >
         <card-table
           v-for="item in board"
-          :key="item"
+          :key="item.id"
           :name="item.name"
           :cards="item.cards"
         ></card-table>
@@ -53,8 +54,9 @@ import draggable from "vuedraggable";
 import { ajaxRequest } from "../../plugins/utils";
 export default {
   data: () => ({
-    name: "b2 QWD",
     board: [],
+    currentCard: {},
+    showModal: false
   }),
   async mounted() {
     console.log(this.$route.params.id);
@@ -102,13 +104,17 @@ export default {
           },
           "GET"
         ))
-        // table.cards = ;
       });
     },
+    openCard: function (card) {
+      this.currentCard = card;
+      this.showModal = !this.showModal;
+    }
   },
   components: {
     CardTable: () => import("../components/card-table"),
     draggable,
+    CardModal: () => import("../components/card-modal")
   },
 };
 </script>

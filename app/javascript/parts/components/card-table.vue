@@ -7,7 +7,7 @@
         v-for="(card, index) in cards"
         :key="index"
         class="card"
-        @click="openCard"
+        @click="openCard(card)"
       >
         <p>{{ card.name }}</p>
         <input type="checkbox" class="checkbox" :value="card.completed" />
@@ -41,8 +41,11 @@ export default {
         description: ""
       });
     },
-    openCard: function() {
+    openCard: function(card) {
       console.log("open");
+      console.log(this.$parent);
+      console.log(this.$parent.openCard)
+      this.$parent.openCard(card);
     },
   },
   components: {
