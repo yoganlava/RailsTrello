@@ -1,6 +1,7 @@
 <template>
   <div class="card-table">
-    <p class="card-title">{{ name }}</p>
+    <p class="card-title" v-if="!nameClicked">{{ name }}</p>
+    <input type="text" v-model="name" v-else>
     <div class="card-list">
       <draggable
         :list="cards"
@@ -16,6 +17,12 @@
           @click="openCard(card)"
         >
           <p>{{ card.name }}</p>
+          <p>
+            {{
+              Math.floor((new Date(card.due_date) - new Date()) / 86400000)
+            }}
+            days left
+          </p>
           <input type="checkbox" class="checkbox" :value="card.completed" />
         </div>
       </draggable>
@@ -41,6 +48,7 @@ export default {
       disabled: false,
       ghostClass: "ghost",
     },
+    nameClicked: false
   }),
   methods: {
     save: function() {
@@ -48,10 +56,10 @@ export default {
     },
     createCard: function() {
       let size = Object.keys(this.cards).length;
-
       Vue.set(this.cards, size, {
         name: "New card",
         description: "Example Description",
+        due_date: new Date().toISOString(),
       });
     },
     openCard: function(card) {
@@ -92,6 +100,8 @@ export default {
   margin-bottom: 10px;
   cursor: pointer;
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+  display: flex;
+  justify-content: space-between;
   &:hover {
     background-color: #f4f5f7;
   }

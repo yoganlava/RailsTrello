@@ -58,8 +58,8 @@ export default {
       console.log(this.board);
       let size = Object.keys(this.board).length;
       Vue.set(this.board, size, {
-        name: "",
-        cards: {},
+        name: "New Table",
+        cards: [],
       });
     },
     save: function() {
