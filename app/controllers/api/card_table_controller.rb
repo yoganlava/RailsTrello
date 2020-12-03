@@ -15,7 +15,7 @@ module Api
     end
 
     def get_card_tables
-      tables = CardTable.where(board_id: params[:id])
+      tables = CardTable.where(board_id: params[:id]).order(:column_index)
       if tables == nil
         render json: {error: "No card tables"}, status: 404
         return

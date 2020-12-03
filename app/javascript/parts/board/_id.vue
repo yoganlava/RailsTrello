@@ -16,8 +16,7 @@
       <draggable
         :list="board"
         v-bind="dragOptions"
-        @start="drag = true"
-        @end="drag = false"
+        @end="updateColumnIndex"
         class="board-content"
       >
         <card-table
@@ -25,6 +24,9 @@
           :key="item.id"
           :name="item.name"
           :cards="item.cards"
+          :id="item.column_index"
+          @updateCard="updateCardPriority"
+          @openCard="openCard"
         ></card-table>
       </draggable>
     </div>
@@ -48,24 +50,31 @@ export default {
     },
   }),
   async mounted() {
-    console.log(this.$route.params.id);
     let board = await ajaxRequest(`/board/${this.$route.params.id}`, "GET");
     this.name = board.name;
     this.generateBoard();
   },
   methods: {
-    createTable: function() {
-      console.log(this.board);
+    createTable(){
+      console.log(this.board)
       let size = Object.keys(this.board).length;
       Vue.set(this.board, size, {
         name: "New Table",
+        board_id: this.$route.params.id,
+        column_index: size,
         cards: [],
       });
     },
-    save: function() {
-      console.log("teetet");
+    async save() {
+      await ajaxRequest(
+        "/save",
+        this.board,
+        "POST"
+      );
+      this.generateBoard();
     },
-    generateBoard: async function() {
+    async generateBoard() {
+      //TODO LOADING
       this.board = await ajaxRequest(
         "/get_card_tables",
         {
@@ -87,10 +96,17 @@ export default {
         );
       });
     },
-    openCard: function(card) {
+    openCard(card) {
       this.currentCard = card;
       this.showModal = !this.showModal;
     },
+    updateColumnIndex() {
+      this.board.forEach((table, index) => table.column_index = index);
+    },
+    updateCardPriority(id) {
+      console.log(this.board[id])
+      this.board[id].cards.forEach((card, index) => Vue.set(card, "priority", index));
+    }
   },
   components: {
     CardTable: () => import("../components/card-table"),

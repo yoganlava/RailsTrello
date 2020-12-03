@@ -1,14 +1,13 @@
 <template>
   <div class="card-table">
     <p class="card-title" v-if="!nameClicked">{{ name }}</p>
-    <input type="text" v-model="name" v-else>
+    <input type="text" v-model="name" v-else />
     <div class="card-list">
       <draggable
         :list="cards"
         group="cards"
         v-bind="dragOptions"
-        @start="drag = true"
-        @end="drag = false"
+        @end="updateCardPriority"
       >
         <div
           v-for="(card, index) in cards"
@@ -18,9 +17,7 @@
         >
           <p>{{ card.name }}</p>
           <p>
-            {{
-              Math.floor((new Date(card.due_date) - new Date()) / 86400000)
-            }}
+            {{ Math.floor((new Date(card.due_date) - new Date()) / 86400000) }}
             days left
           </p>
           <input type="checkbox" class="checkbox" :value="card.completed" />
@@ -41,30 +38,34 @@
 import Vue from "vue";
 import draggable from "vuedraggable";
 export default {
-  props: ["name", "cards"],
+  props: ["name", "cards", "id"],
   data: () => ({
     dragOptions: {
       animation: 200,
       disabled: false,
       ghostClass: "ghost",
     },
-    nameClicked: false
+    nameClicked: false,
   }),
   methods: {
-    save: function() {
-      console.log("sasdasd");
-    },
-    createCard: function() {
+    createCard() {
       let size = Object.keys(this.cards).length;
       Vue.set(this.cards, size, {
         name: "New card",
+        completed: false,
         description: "Example Description",
+        priority: size,
         due_date: new Date().toISOString(),
       });
     },
-    openCard: function(card) {
-      console.log("open");
-      this.$parent.$parent.openCard(card);
+    openCard(card) {
+      this.$emit("openCard", card)
+    },
+    updateCardPriority() {
+      this.$emit("updateCard", this.id);
+      // this.cards.forEach((card, index) => {
+      //   Vue.set(table, "priority", index);
+      // });
     },
   },
   components: {
@@ -89,7 +90,6 @@ export default {
 }
 
 .card-list {
-  //   padding: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
 }

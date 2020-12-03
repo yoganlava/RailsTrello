@@ -1,10 +1,6 @@
 module Api
     class ContactController < ApplicationController
         def send_contact
-            # if params["name"] == nil or params["message"] == nil
-            #     render json: {error: "Invalid Args"}
-            # end
-            puts "Debug"
             puts params
 
             begin

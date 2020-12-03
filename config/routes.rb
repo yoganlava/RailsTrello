@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     # resources :card_table
     get 'get_card_tables' => 'card_table#get_card_tables'
     get 'get_cards' => 'card#get_cards'
+    post 'save' => 'board#save_board'
     post 'mail' => 'contact#send_contact'
     resources :user
     resources :user_token

@@ -15,7 +15,7 @@ module Api
     end
 
     def get_cards
-      cards = Card.where(parent_id: params[:id])
+      cards = Card.where(parent_id: params[:id]).order(:priority)
       if cards == nil
         render json: {error: "No cards"}, status: 404
         return
