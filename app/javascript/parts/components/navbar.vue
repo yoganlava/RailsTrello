@@ -22,15 +22,15 @@
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item">
-          My boards
-        </a>
+        <router-link v-if="$store.state.user.email" class="navbar-item" to="/home">
+          Your boards
+        </router-link>
         <router-link class="navbar-item" to="/contact">
           Contact Me
         </router-link>
       </div>
       <div class="navbar-end">
-        <div class="navbar-item">
+        <div v-if="!$store.state.user.email" class="navbar-item">
           <div class="buttons">
             <a class="button is-primary">
               <strong>Sign up</strong>
@@ -38,6 +38,13 @@
             <a class="button is-light">
               Log in
             </a>
+          </div>
+        </div>
+        <div v-else class="navbar-item">
+          <div class="buttons">
+            <button class="button is-primary">
+              <strong>Logout</strong>
+            </button>
           </div>
         </div>
       </div>

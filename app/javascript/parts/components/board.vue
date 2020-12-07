@@ -1,15 +1,20 @@
 <template>
-  <div class="board" :style="{'background-color': this.color}">
+  <router-link
+    :to="'/board/' + this.$vnode.key"
+    tag="div"
+    class="board"
+    :style="{ 'background-color': this.color }"
+  >
     <div class="board-details">
       <h2>{{ title }}</h2>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
 export default {
-    props: ['title', 'color']
-}
+  props: ["title", "color"],
+};
 </script>
 
 <style>

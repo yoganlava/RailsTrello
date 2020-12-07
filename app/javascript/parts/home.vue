@@ -3,28 +3,37 @@
     <create-board-modal v-model="showModal"></create-board-modal>
     <h1>Your boards</h1>
     <div class="board-list">
-      <board title="Example 1" color="black"></board>
-      <board title="Example 2" color="green"></board>
+      <!-- <board title="Example 1" color="black"></board>
+      <board title="Example 2" color="green"></board> -->
+      <board v-for="board in this.boards" :key="board.id" :title="board.name" :color="board.color"></board>
     </div>
     <h1>Create a board!</h1>
     <button class="button is-success" @click="toggleModal">Create</button>
   </div>
 </template>
 <script>
+import { ajaxRequest } from "../plugins/utils";
 // import CreateBoardModal from './components/create-board-modal.vue'
 export default {
   data: () => ({
-    showModal: false
+    showModal: false,
+    boards: [],
   }),
   components: {
     Board: () => import("./components/board"),
     CreateBoardModal: () => import("./components/create-board-modal")
   },
+  async created() {
+    console.log(this.$store.state.user)
+    this.boards = await ajaxRequest("/get_user_boards", "GET");
+    // console.log("pog");
+    console.log(this.boards);
+  },
   methods: {
-    toggleModal: function() {
+    toggleModal() {
       this.showModal = !this.showModal;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -40,6 +49,6 @@ h1 {
 }
 
 .board-list {
-    display: flex;
+  display: flex;
 }
 </style>

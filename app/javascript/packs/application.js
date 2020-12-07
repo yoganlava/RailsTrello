@@ -16,21 +16,16 @@
 
 import Vue from "vue";
 import App from "../app.vue";
-import router from "../routes";
-import Route from "../plugins/router";
-// import Toast from '../plugins/toast';
+import router from "../plugins/router";
+import store from "../plugins/store"
 console.log("Hello World from Webpacker");
 
 document.addEventListener("DOMContentLoaded", () => {
     const app = new Vue({
         render: (h) => h(App),
-        router,
-        components: {
-            Route,
-            // Toast
-        },
+        router: router,
+        store: store
     }).$mount();
-    // app.$toasted
     document.body.appendChild(app.$el);
     console.log(app);
 });

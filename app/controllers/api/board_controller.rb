@@ -1,6 +1,6 @@
 module Api
   class BoardController < ApplicationController
-    before_action :authenticate_user, only: [:new, :create, :update]
+    before_action :authenticate_user, only: [:new, :create, :update, :get_user_boards]
     # before_action :set_board, only: [:show, :edit, :update, :destroy]
 
     # GET /boards
@@ -52,8 +52,9 @@ module Api
       @board = Board.new
     end
 
-    def show_user_boards
-      
+    def get_user_boards
+      board = Board.where(creator: current_user.id)
+      render json: board
     end
 
 

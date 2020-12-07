@@ -63,9 +63,6 @@ export default {
     },
     updateCardPriority() {
       this.$emit("updateCard", this.id);
-      // this.cards.forEach((card, index) => {
-      //   Vue.set(table, "priority", index);
-      // });
     },
   },
   components: {
