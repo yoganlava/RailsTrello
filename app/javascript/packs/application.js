@@ -17,14 +17,18 @@
 import Vue from "vue";
 import App from "../app.vue";
 import router from "../plugins/router";
-import store from "../plugins/store"
+import store from "../plugins/store";
+import VueJsDialog from "../plugins/confirm";
 console.log("Hello World from Webpacker");
 
 document.addEventListener("DOMContentLoaded", () => {
     const app = new Vue({
         render: (h) => h(App),
         router: router,
-        store: store
+        store: store,
+        components: {
+            VueJsDialog,
+        },
     }).$mount();
     document.body.appendChild(app.$el);
     console.log(app);

@@ -1,16 +1,19 @@
 <template>
   <div class="card-table">
-    <p class="card-title" v-if="!nameClicked">{{ name }}</p>
-    <input type="text" v-model="name" v-else />
+    <div class="card-table-top">
+      <p class="card-title" v-if="!nameClicked">{{ model.name }}</p>
+      <input type="text" v-model="model.name" v-else />
+      <button class="delete" aria-label="close" @click="deleteTable"></button>
+    </div>
     <div class="card-list">
       <draggable
-        :list="cards"
+        :list="model.cards"
         group="cards"
         v-bind="dragOptions"
         @end="updateCardPriority"
       >
         <div
-          v-for="(card, index) in cards"
+          v-for="(card, index) in model.cards"
           :key="index"
           class="card"
           @click="openCard(card)"
@@ -38,7 +41,7 @@
 import Vue from "vue";
 import draggable from "vuedraggable";
 export default {
-  props: ["name", "cards", "id"],
+  props: ["model"],
   data: () => ({
     dragOptions: {
       animation: 200,
@@ -49,8 +52,8 @@ export default {
   }),
   methods: {
     createCard() {
-      let size = Object.keys(this.cards).length;
-      Vue.set(this.cards, size, {
+      let size = Object.keys(this.model.cards).length;
+      Vue.set(this.model.cards, size, {
         name: "New card",
         completed: false,
         description: "Example Description",
@@ -59,10 +62,13 @@ export default {
       });
     },
     openCard(card) {
-      this.$emit("openCard", card)
+      this.$emit("openCard", card);
     },
     updateCardPriority() {
-      this.$emit("updateCard", this.id);
+      this.$emit("updateCard", this.model.column_index);
+    },
+    deleteTable() {
+      this.$emit("deleteTable", this.model);
     },
   },
   components: {
@@ -84,6 +90,11 @@ export default {
   border-radius: 10px;
   box-shadow: 0 15px 35px 0 rgba(60, 66, 87, 0.12),
     0 5px 15px 0 rgba(0, 0, 0, 0.12);
+}
+
+.card-table-top {
+  display: flex;
+  justify-content: space-between;
 }
 
 .card-list {

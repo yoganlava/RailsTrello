@@ -10,5 +10,7 @@ class CreateCards < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    add_foreign_key :cards, :card_tables, column: :parent_id, on_delete: :cascade
   end
 end

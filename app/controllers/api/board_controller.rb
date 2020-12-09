@@ -33,7 +33,6 @@ module Api
           board = CardTable.find_by(id: table[:id])
           board.update({name: table[:name], column_index: table[:column_index], board_id: table[:board_id]})
         end
-
         table[:cards].each do |card|
           if card[:id].nil?
             saved_card = Card.new({parent_id: table[:id], name: card[:name], completed: card[:completed], description: card[:description], priority: card[:priority], due_date: card[:due_date]})
@@ -44,6 +43,14 @@ module Api
           end
         end
 
+      end
+    end
+
+    def delete_tables
+      params[:_json].each do |table|
+        if table[:id].nil?
+          
+        end
       end
     end
 

@@ -21,11 +21,16 @@ const store = new Vuex.Store({
         async updateUserStateAsync({ commit }) {
             if (!Cookie.get("jwt"))
                 return
-            let res = await ajaxRequest("/get_user_info", "GET");
+            let res;
+            try {
+                res = await ajaxRequest("/get_user_info", "GET");
+            } catch (e) {
+                return
+            }
             if (!res.error)
                 commit("updateUserState", {
                     user: res
-                })
+                });
             else
                 Cookie.remove("jwt")
             console.log()

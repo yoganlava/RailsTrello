@@ -1,6 +1,6 @@
 <template>
   <div>
-    <card-modal :card="currentCard" v-model="showModal"></card-modal>
+    <card-modal :card="currentCard" v-model="showModal" @deleteCard="deleteItem"></card-modal>
     <div class="board-details">
       <h1>{{ name }}</h1>
     </div>
@@ -22,11 +22,10 @@
         <card-table
           v-for="item in board"
           :key="item.id"
-          :name="item.name"
-          :cards="item.cards"
-          :id="item.column_index"
+          :model="item"
           @updateCard="updateCardPriority"
           @openCard="openCard"
+          @deleteTable="deleteItem"
         ></card-table>
       </draggable>
     </div>
@@ -41,6 +40,8 @@ export default {
   data: () => ({
     name: "",
     board: [],
+    deletedCards: [],
+    deletedTables: [],
     currentCard: {},
     showModal: false,
     dragOptions: {
@@ -100,11 +101,22 @@ export default {
       this.currentCard = card;
       this.showModal = !this.showModal;
     },
+    async deleteItem(item){
+      if(await this.$dialog.confirm("Test")){
+        if(item.board_id){
+          this.deletedTables.push(item);
+          Vue.delete(this.board, this.board.indexOf(item));
+        } else{
+          this.deletedCards.push(item);
+          let list = this.board[this.board.indexOf(this.board.filter(table => table.id == item.parent_id)[0])].cards;
+          Vue.delete(list, list.indexOf(item));
+        }
+      }
+    },
     updateColumnIndex() {
       this.board.forEach((table, index) => table.column_index = index);
     },
     updateCardPriority(id) {
-      console.log(this.board[id])
       this.board[id].cards.forEach((card, index) => Vue.set(card, "priority", index));
     }
   },

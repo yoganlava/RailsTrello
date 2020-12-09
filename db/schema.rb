@@ -63,4 +63,5 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "cards", "card_tables", column: "parent_id", on_delete: :cascade
 end

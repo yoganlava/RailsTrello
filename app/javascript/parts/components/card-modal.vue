@@ -3,13 +3,13 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <input type="text" v-model="name" class="input" style="width:30%"/>
+        <input type="text" v-model="name" class="input" style="width:30%" />
         <button class="delete" aria-label="close" @click="toggle"></button>
       </header>
       <section class="modal-card-body">
         <div class="field">
           <label class="label">Description</label>
-        <textarea class="textarea" v-model="description"></textarea>
+          <textarea class="textarea" v-model="description"></textarea>
         </div>
         <div class="field">
           <label class="label">Due Date</label>
@@ -18,6 +18,7 @@
       </section>
       <footer class="modal-card-foot">
         <button class="button is-success" @click="save">Save</button>
+        <button class="button is-success" @click="deleteCard">Delete</button>
       </footer>
     </div>
   </div>
@@ -33,15 +34,19 @@ export default {
     due_date: new Date(),
   }),
   methods: {
-    toggle: function() {
+    toggle() {
       this.$emit("input", !this.value);
     },
-    save: function() {
+    save() {
       Vue.set(this.card, "name", this.name);
       Vue.set(this.card, "description", this.description);
       Vue.set(this.card, "due_date", this.due_date);
       this.toggle();
     },
+    deleteCard() {
+      this.$emit("deleteCard", this.card);
+      this.toggle();
+    }
   },
   watch: {
     value: function() {
