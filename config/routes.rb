@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     get 'get_cards' => 'card#get_cards'
     get 'get_user_boards' => 'board#get_user_boards'
     get 'get_user_info' => 'user#get_user_info'
+    post 'delete_tables' => 'board#delete_tables'
+    post 'delete_cards' => 'board#delete_cards'
     post 'save' => 'board#save_board'
     post 'mail' => 'contact#send_contact'
     resources :user

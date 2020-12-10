@@ -1,5 +1,6 @@
 <template>
   <div>
+    <page-loader v-model="loading"></page-loader>
     <card-modal :card="currentCard" v-model="showModal" @deleteCard="deleteItem"></card-modal>
     <div class="board-details">
       <h1>{{ name }}</h1>
@@ -44,6 +45,7 @@ export default {
     deletedTables: [],
     currentCard: {},
     showModal: false,
+    loading: false,
     dragOptions: {
       animation: 200,
       disabled: false,
@@ -51,9 +53,11 @@ export default {
     },
   }),
   async mounted() {
+    this.loading = true;
     let board = await ajaxRequest(`/board/${this.$route.params.id}`, "GET");
     this.name = board.name;
     this.generateBoard();
+    this.loading = false;
   },
   methods: {
     createTable(){
@@ -67,12 +71,24 @@ export default {
       });
     },
     async save() {
+      this.loading = true;
       await ajaxRequest(
         "/save",
         this.board,
         "POST"
       );
+      await ajaxRequest(
+        "/delete_tables",
+        this.deletedTables,
+        "POST"
+      );
+      await ajaxRequest(
+        "/delete_cards",
+        this.deletedCards,
+        "POST"
+      );
       this.generateBoard();
+      this.loading = false;
     },
     async generateBoard() {
       //TODO LOADING
@@ -124,6 +140,7 @@ export default {
     CardTable: () => import("../components/card-table"),
     draggable,
     CardModal: () => import("../components/card-modal"),
+    PageLoader: () => import("../components/page-loader")
   },
 };
 </script>

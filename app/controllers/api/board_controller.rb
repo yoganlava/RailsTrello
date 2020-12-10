@@ -42,14 +42,24 @@ module Api
             saved_card.update({parent_id: table[:id], name: card[:name], completed: card[:completed], description: card[:description], priority: card[:priority], due_date: card[:due_date]})
           end
         end
-
       end
     end
 
     def delete_tables
+
       params[:_json].each do |table|
-        if table[:id].nil?
-          
+        puts table[:id]
+        if !table[:id].nil?
+          puts "delete"
+          CardTable.destroy(table[:id])
+        end
+      end
+    end
+
+    def delete_cards
+      params[:_json].each do |card|
+        if card[:id].nil?
+          Card.destroy(card[:id])
         end
       end
     end
