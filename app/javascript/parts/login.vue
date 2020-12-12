@@ -36,7 +36,7 @@
 
 <script>
 import $ from "jquery";
-import { ajaxRequest } from "../plugins/utils";
+import { ajaxRequest, toastData } from "../plugins/utils";
 import Cookie from "js-cookie";
 export default {
   data: () => ({
@@ -46,16 +46,21 @@ export default {
   methods: {
     login: async function() {
       console.log("Login");
-      let data = await ajaxRequest("/user_token", {
-        auth: { email: this.email, password: this.password },
-      },
-      "POST");
-      console.log(data);
-      if ($.isEmptyObject(data)){
-        console.log("WRONG LOGIN")
-        return
+      try {
+        let data = await ajaxRequest(
+          "/user_token",
+          {
+            auth: { email: this.email, password: this.password },
+          },
+          "POST"
+        );
+        toastData({ message: "Login successful" });
+        Cookie.set("jwt", data.jwt);
+        this.$router.push("/home");
+      } catch (e) {
+        toastData({ error: "Incorrect login details" });
+        return;
       }
-      Cookie.set("jwt", data.jwt);
     },
   },
 };

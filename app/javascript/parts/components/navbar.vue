@@ -22,7 +22,11 @@
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <router-link v-if="$store.state.user.email" class="navbar-item" to="/home">
+        <router-link
+          v-if="$store.state.user.email"
+          class="navbar-item"
+          to="/home"
+        >
           Your boards
         </router-link>
         <router-link class="navbar-item" to="/contact">
@@ -42,7 +46,7 @@
         </div>
         <div v-else class="navbar-item">
           <div class="buttons">
-            <button class="button is-primary">
+            <button class="button is-primary" @click="logout">
               <strong>Logout</strong>
             </button>
           </div>
@@ -53,5 +57,14 @@
 </template>
 
 <script>
-export default {};
+import Cookies from "js-cookie";
+export default {
+  methods: {
+    async logout() {
+      Cookies.remove("jwt");
+      await this.$store.dispatch("updateUserStateAsync");
+      this.$router.push("/");
+    },
+  },
+};
 </script>

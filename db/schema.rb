@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
     t.integer "board_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "board_id"], name: "index_board_accesses_on_user_id_and_board_id", unique: true
   end
 
   create_table "boards", force: :cascade do |t|
@@ -56,12 +57,12 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
 
   create_table "users", force: :cascade do |t|
     t.string "email"
-    t.boolean "verified"
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "card_tables", "boards", on_delete: :cascade
   add_foreign_key "cards", "card_tables", column: "parent_id", on_delete: :cascade
 end

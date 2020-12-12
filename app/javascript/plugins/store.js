@@ -1,41 +1,43 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { ajaxRequest } from './utils'
-import Cookie from 'js-cookie'
+import Vue from "vue";
+import Vuex from "vuex";
+import { ajaxRequest } from "./utils";
+import Cookie from "js-cookie";
 
-Vue.use(Vuex)
-
+Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        user: {}
+        user: {},
     },
     mutations: {
         updateUserState(state, { user }) {
-            console.log("GET USER");
             state.user = user;
-            console.log(state.user);
-        }
+        },
     },
     actions: {
         async updateUserStateAsync({ commit }) {
-            if (!Cookie.get("jwt"))
-                return
+            if (!Cookie.get("jwt")) {
+                commit("updateUserState", {
+                    user: {},
+                });
+                return;
+            }
             let res;
             try {
                 res = await ajaxRequest("/get_user_info", "GET");
             } catch (e) {
-                return
+                commit("updateUserState", {
+                    user: {},
+                });
+                return;
             }
             if (!res.error)
                 commit("updateUserState", {
-                    user: res
+                    user: res,
                 });
-            else
-                Cookie.remove("jwt")
-            console.log()
-        }
-    }
-})
+            else Cookie.remove("jwt");
+        },
+    },
+});
 
 export default store;

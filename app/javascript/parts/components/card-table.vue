@@ -1,8 +1,8 @@
 <template>
   <div class="card-table">
     <div class="card-table-top">
-      <p class="card-title" v-if="!nameClicked">{{ model.name }}</p>
-      <input type="text" v-model="model.name" v-else />
+      <p class="card-title" v-if="!nameClicked" @click="toggleCardName">{{ model.name }}</p>
+      <input type="text" v-model="model.name" v-else  v-on:keydown.enter="toggleCardName"/>
       <button class="delete" aria-label="close" @click="deleteTable"></button>
     </div>
     <div class="card-list">
@@ -70,6 +70,9 @@ export default {
     deleteTable() {
       this.$emit("deleteTable", this.model);
     },
+    toggleCardName() {
+      this.nameClicked = !this.nameClicked;
+    }
   },
   components: {
     draggable,

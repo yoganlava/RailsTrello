@@ -89,7 +89,5 @@ export default {
 <style scoped>
 .modal-card-body {
   line-height: 100px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
 }
 </style>

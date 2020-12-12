@@ -7,5 +7,7 @@ class CreateCardTables < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    add_foreign_key :card_tables, :boards, column: :board_id, on_delete: :cascade
   end
 end

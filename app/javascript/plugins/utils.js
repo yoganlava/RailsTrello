@@ -21,10 +21,11 @@ export async function ajaxRequest(url, data = {}, type) {
 }
 
 export function toastData(data) {
+    if (data === undefined)
+        return;
     toast({
         message: data.message ? data.message : data.error,
         type: data.message ? "is-success" : "is-danger",
         dismissible: true
     });
-    console.log("toast")
 }

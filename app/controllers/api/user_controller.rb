@@ -1,7 +1,6 @@
 module Api
   class UserController < ApplicationController
     before_action :authenticate_user, only: [:get_user_info]
-    # before_action :set_user, only: [:show, :edit, :update, :destroy]
 
     def get_user_info
       user = User.select(:email, :created_at).find_by(id: current_user.id)
@@ -24,16 +23,19 @@ module Api
       rescue Exception => e
         render json: {error: "Try another email"}, status: 200
       end
+    end
 
+    def get_user_boards
+      board = Board.where(creator: current_user.id)
+      render json: board
+    end
+
+    def get_shared_boards
+      boards = BoardAccess.where(user_id: current_user.id)
+      render json: boards.map {|access| Board.find(access.board_id)}
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_user
-        # @user = User.find(params[:id])
-      end
-
-      # Only allow a list of trusted parameters through.
       def user_params
         params.require(:user).permit(:id, :email, :password)
       end

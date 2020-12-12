@@ -6,5 +6,7 @@ class CreateBoardAccesses < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    add_index :board_accesses, [:user_id, :board_id], unique: true
   end
 end

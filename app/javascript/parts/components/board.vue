@@ -3,21 +3,34 @@
     :to="'/board/' + this.$vnode.key"
     tag="div"
     class="board"
-    :style="{ 'background-color': this.color }"
+    :style="{
+      'background-color': this.model.color,
+      ...(this.model.image != '' && {
+        background: `url(${this.model.image})`,
+        'background-repeat': 'no-repeat',
+        'background-size': '100%',
+      }),
+    }"
   >
-    <div class="board-details">
-      <h2>{{ title }}</h2>
+    <div class="board-details" @contextmenu="openContextMenu($event)">
+      <h2>{{ model.name }}</h2>
     </div>
   </router-link>
 </template>
 
 <script>
 export default {
-  props: ["title", "color"],
+  props: ["model"],
+  methods: {
+    openContextMenu(event) {
+      event.preventDefault();
+      this.$emit("openContextMenu", event, this.model);
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .board {
   cursor: pointer;
   width: 15%;

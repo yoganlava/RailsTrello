@@ -1,37 +1,77 @@
 <template>
-  <div class="boards">
+  <div class="boards" @click="hideContextMenu">
+    <page-loader v-model="loading"></page-loader>
+    <board-context-menu
+      :board="selectedBoard"
+      @deleteBoard="deleteBoard"
+      ref="contextMenu"
+    ></board-context-menu>
     <create-board-modal v-model="showModal"></create-board-modal>
     <h1>Your boards</h1>
     <div class="board-list">
-      <!-- <board title="Example 1" color="black"></board>
-      <board title="Example 2" color="green"></board> -->
-      <board v-for="board in this.boards" :key="board.id" :title="board.name" :color="board.color"></board>
+      <board
+        v-for="board in this.boards"
+        :key="board.id"
+        :model="board"
+        @openContextMenu="openContextMenu"
+      ></board>
+    </div>
+    <h1>Shared boards</h1>
+    <div class="board-list">
+      <board
+        v-for="board in this.sharedBoards"
+        :key="board.id"
+        :model="board"
+        @openContextMenu="openContextMenu"
+      ></board>
     </div>
     <h1>Create a board!</h1>
     <button class="button is-success" @click="toggleModal">Create</button>
   </div>
 </template>
 <script>
+import Vue from "vue";
 import { ajaxRequest } from "../plugins/utils";
-// import CreateBoardModal from './components/create-board-modal.vue'
+
 export default {
   data: () => ({
     showModal: false,
+    selectedBoard: {},
     boards: [],
+    loading: false,
+    sharedBoards: [],
   }),
   components: {
     Board: () => import("./components/board"),
-    CreateBoardModal: () => import("./components/create-board-modal")
+    CreateBoardModal: () => import("./components/create-board-modal"),
+    BoardContextMenu: () => import("./components/board-context-menu"),
+    PageLoader: () => import("./components/page-loader"),
   },
-  async created() {
-    console.log(this.$store.state.user)
-    this.boards = await ajaxRequest("/get_user_boards", "GET");
-    // console.log("pog");
-    console.log(this.boards);
+  async mounted() {
+    await this.generateBoards();
   },
   methods: {
     toggleModal() {
       this.showModal = !this.showModal;
+    },
+    async generateBoards() {
+      console.log("call");
+      this.loading = true;
+      this.boards = await ajaxRequest("/user/get_user_boards", "GET");
+      this.sharedBoards = await ajaxRequest("/user/get_shared_boards", "GET");
+      this.loading = false;
+    },
+    openContextMenu(event, board) {
+      this.$refs.contextMenu.$el.style.display = "block";
+      this.$refs.contextMenu.$el.style.left = event.pageX + "px";
+      this.$refs.contextMenu.$el.style.top = event.pageY + "px";
+      this.selectedBoard = board;
+    },
+    hideContextMenu() {
+      this.$refs.contextMenu.$el.style.display = "none";
+    },
+    deleteBoard(board) {
+      Vue.delete(this.boards, this.boards.indexOf(board));
     },
   },
 };

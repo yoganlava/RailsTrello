@@ -1,30 +1,22 @@
 module Api
   class BoardController < ApplicationController
     before_action :authenticate_user, only: [:new, :create, :update, :get_user_boards]
-    # before_action :set_board, only: [:show, :edit, :update, :destroy]
 
-    # GET /boards
-    # GET /boards.json
-    def index
-      @boards = Board.all
-    end
-
-    # GET /boards/1
-    # GET /boards/1.json
     def show
       board = Board.find_by(id: params[:id])
-      if board == nil
-        render json: {error: "No board found"}, status: 404
-        return
+      if board.nil?
+        board = Board.find_by(custom_url: params[:id])
+        if board.nil?
+          render json: {error: "No board found"}
+          return
+        end
       end
-      render json: board, status: 200
+      render json: board
       return
     end
 
     def save_board
-      # puts params[:_json]
       params[:_json].each do |table|
-        puts "########################################TABLE##################################################################"
         if table[:id].nil?
           card_table = CardTable.new({name: table[:name], column_index: table[:column_index], board_id: table[:board_id]})
           card_table.save
@@ -45,42 +37,33 @@ module Api
       end
     end
 
-    def delete_tables
-
-      params[:_json].each do |table|
-        puts table[:id]
-        if !table[:id].nil?
-          puts "delete"
-          CardTable.destroy(table[:id])
-        end
+    def add_access
+      user = User.find_by(email: params[:email])
+      puts "USER"
+      puts user
+      puts "USER END"
+      if user.nil?
+        render json: {error: "No user found under that email"}
+        return
+      end
+      board = Board.find(params[:board_id].to_i)
+      if board.nil?
+        render json: {error: "Invalid board id"}
+        return
+      end
+      if board.creator.eql? user.id
+        render json: {error: "User is creator"}
+        return
+      end
+      access = BoardAccess.new({user_id: user.id, board_id: board.id})
+      begin
+        access.save
+        render json: {message: "User added"}
+      rescue Exception => e
+        render json: {error: "User already added"}
       end
     end
 
-    def delete_cards
-      params[:_json].each do |card|
-        if card[:id].nil?
-          Card.destroy(card[:id])
-        end
-      end
-    end
-
-    # GET /boards/new
-    def new
-      @board = Board.new
-    end
-
-    def get_user_boards
-      board = Board.where(creator: current_user.id)
-      render json: board
-    end
-
-
-    # GET /boards/1/edit
-    def edit
-    end
-
-    # POST /boards
-    # POST /boards.json
     def create
       args = board_params
       args["creator"] = current_user.id
@@ -88,40 +71,22 @@ module Api
 
       begin
         @board.save
-        render json: {message: "Board created"}, status: 200
+        render json: {message: "Board created"}
       rescue Exception => e
-        render json: {error: "Try another name"}, status: 200
+        render json: {error: "Try another name"}
       end
     end
 
-    # PATCH/PUT /boards/1
-    # PATCH/PUT /boards/1.json
-    def update
-      respond_to do |format|
-        if @board.update(board_params)
-          format.html { redirect_to @board, notice: 'Board was successfully updated.' }
-          format.json { render :show, status: :ok, location: @board }
-        else
-          format.html { render :edit }
-          format.json { render json: @board.errors, status: :unprocessable_entity }
-        end
+    def delete_board
+      if !current_user.id.eql? params[:creator]
+        render json: {error: "Insufficient permissions"}
+        return
       end
-    end
-
-    # DELETE /boards/1
-    # DELETE /boards/1.json
-    def destroy
-      @board.destroy
-      respond_to do |format|
-        format.html { redirect_to boards_url, notice: 'Board was successfully destroyed.' }
-        format.json { head :no_content }
-      end
+      Board.destroy(params[:id])
+      render json: {message: "Board deleted"}
     end
 
     private
-    # def set_board
-    #   @board = Board.find(params[:id])
-    # end
 
     def board_params
       params.require(:board).permit(:name, :custom_url, :color, :image, :private)

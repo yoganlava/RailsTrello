@@ -5,10 +5,14 @@ Rails.application.routes.draw do
     resources :card
     get 'get_card_tables' => 'card_table#get_card_tables'
     get 'get_cards' => 'card#get_cards'
-    get 'get_user_boards' => 'board#get_user_boards'
+    get 'user/get_user_boards' => 'user#get_user_boards'
+    get 'user/get_shared_boards' => 'user#get_shared_boards'
     get 'get_user_info' => 'user#get_user_info'
-    post 'delete_tables' => 'board#delete_tables'
-    post 'delete_cards' => 'board#delete_cards'
+    post 'delete_tables' => 'card_table#delete_tables'
+    post 'delete_cards' => 'card#delete_cards'
+    post 'add_access' => 'board#add_access'
+    post '/board/has_access' => 'board_access#has_access'
+    post '/board/delete_board' => 'board#delete_board'
     post 'save' => 'board#save_board'
     post 'mail' => 'contact#send_contact'
     resources :user
