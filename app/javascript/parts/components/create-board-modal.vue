@@ -7,9 +7,9 @@
         <button class="delete" aria-label="close" @click="toggle"></button>
       </header>
       <section class="modal-card-body">
-        <p>Name</p>
+        <p>Name*</p>
         <input class="input" type="text" placeholder="Name" v-model="name" />
-        <p>Colour</p>
+        <p>Colour* (hex or name)</p>
         <input class="input" type="text" placeholder="Colour" v-model="color" />
         <p>Image Cover</p>
         <input class="input" type="text" placeholder="Cover" v-model="image" />
@@ -20,27 +20,6 @@
           placeholder="Custom Url"
           v-model="custom_url"
         />
-        <div class="control">
-          <label class="radio">
-            <input
-              type="radio"
-              name="private"
-              :v-model="this.private"
-              :value="true"
-            />
-            Private
-          </label>
-          <label class="radio">
-            <input
-              type="radio"
-              :v-model="this.private"
-              :value="false"
-              name="private"
-              checked
-            />
-            Public
-          </label>
-        </div>
       </section>
       <footer class="modal-card-foot is-centered edit-footer">
         <button class="button is-success" @click="createBoard">Create</button>
@@ -60,7 +39,6 @@ export default {
     custom_url: "",
     color: "",
     image: "",
-    private: false,
   }),
   methods: {
     toggle: function() {
@@ -75,7 +53,6 @@ export default {
             custom_url: this.custom_url,
             color: this.color,
             image: this.image,
-            private: this.private,
           },
         },
         "POST"
