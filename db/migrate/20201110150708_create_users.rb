@@ -8,6 +8,5 @@ class CreateUsers < ActiveRecord::Migration[5.2]
     end
 
     add_index :users, :email, unique: true
-    change_column_null :users, :email, false
   end
 end

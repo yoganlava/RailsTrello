@@ -1,15 +1,8 @@
 <template>
   <div class="card-table">
     <div class="card-table-top">
-      <p class="card-title" v-if="!nameClicked" @click="toggleCardName">
-        {{ model.name }}
-      </p>
-      <input
-        type="text"
-        v-model="model.name"
-        v-else
-        v-on:keydown.enter="toggleCardName"
-      />
+      <p class="card-title" v-if="!nameClicked" @click="toggleCardName">{{ model.name }}</p>
+      <input type="text" v-model="model.name" v-else  v-on:keydown.enter="toggleCardName"/>
       <button class="delete" aria-label="close" @click="deleteTable"></button>
     </div>
     <div class="card-list">
@@ -23,18 +16,14 @@
           v-for="(card, index) in model.cards"
           :key="index"
           class="card"
-          @click="openCard($event, card)"
+          @click="openCard(card)"
         >
           <p>{{ card.name }}</p>
           <p>
-            {{
-              Math.ceil((new Date(card.due_date) - new Date()) / 86400000) <= 0
-                ? "DUE"
-                : Math.ceil((new Date(card.due_date) - new Date()) / 86400000) +
-                  " days left"
-            }}
+            {{ Math.floor((new Date(card.due_date) - new Date()) / 86400000) }}
+            days left
           </p>
-          <input type="checkbox" class="checkbox" v-model="card.completed" />
+          <input type="checkbox" class="checkbox" :value="card.completed" />
         </div>
       </draggable>
     </div>
@@ -72,8 +61,7 @@ export default {
         due_date: new Date().toISOString(),
       });
     },
-    openCard(event, card) {
-      if (event.target.className == "checkbox") return;
+    openCard(card) {
       this.$emit("openCard", card);
     },
     updateCardPriority() {
@@ -84,7 +72,7 @@ export default {
     },
     toggleCardName() {
       this.nameClicked = !this.nameClicked;
-    },
+    }
   },
   components: {
     draggable,
