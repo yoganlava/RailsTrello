@@ -9,5 +9,8 @@ class CreateCardTables < ActiveRecord::Migration[5.2]
     end
 
     add_foreign_key :card_tables, :boards, column: :board_id, on_delete: :cascade
+    change_column_null :card_tables, :board_id, false
+    change_column_null :card_tables, :column_index, false
+    change_column_null :card_tables, :name, false
   end
 end

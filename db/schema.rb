@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
     t.integer "creator"
     t.string "color"
     t.string "image"
-    t.boolean "private"
     t.string "custom_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
