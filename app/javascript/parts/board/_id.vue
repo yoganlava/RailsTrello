@@ -88,7 +88,7 @@ export default {
     );
     toastData(hasAccessRes);
     } catch(e) {
-      toastData({error: "No permissions"})
+      toastData(hasAccessRes = {error: "No permissions"})
     }
     this.hasAccess = hasAccessRes == undefined;
     this.name = board.name;
