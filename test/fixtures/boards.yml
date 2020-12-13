@@ -1,13 +1,13 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  creator: 
-  private: false
-  custom_url: MyString
+# one:
+#   name: MyString
+#   creator: 
+#   private: false
+#   custom_url: MyString
 
-two:
-  name: MyString
-  creator: 
-  private: false
-  custom_url: MyString
+# two:
+#   name: MyString
+#   creator: 
+#   private: false
+#   custom_url: MyString

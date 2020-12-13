@@ -2,9 +2,9 @@ require 'test_helper'
 
 class BoardsControllerTest < ActionDispatch::IntegrationTest
 
-  test "home page" do
+  # test "home page" do
     
-  end
+  # end
   # setup do
   #   @board = boards(:one)
   # end
