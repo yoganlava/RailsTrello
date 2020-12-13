@@ -79,12 +79,17 @@ export default {
       return;
     }
     this.boardID = board.id;
-    let hasAccessRes = await ajaxRequest(
+    let hasAccessRes;
+    try {
+    hasAccessRes = await ajaxRequest(
       `/board/has_access`,
       { board_id: this.boardID },
       "POST"
     );
     toastData(hasAccessRes);
+    } catch(e) {
+      toastData({error: "No permissions"})
+    }
     this.hasAccess = hasAccessRes == undefined;
     this.name = board.name;
     this.generateBoard();
