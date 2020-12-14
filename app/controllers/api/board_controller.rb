@@ -52,7 +52,7 @@ module Api
     end
 
     def delete_board
-      if !current_user.id.eql? params[:creator]
+      if !current_user.id.eql? params[:user_id]
         render json: {error: "Insufficient permissions"}
         return
       end

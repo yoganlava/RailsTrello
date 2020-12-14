@@ -19,7 +19,9 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "delete board" do
-    
+    sign_in()
+    post '/api/board/delete_board', params: {}, headers: {'Authorization': "Bearer #{@token}"}
+    assert_response :success
   end
 
 end

@@ -59,7 +59,7 @@ CardTable.create(
 Card.create(
     [
         {
-            parent_id: 1,
+            card_table_id: 1,
             name: "Card One",
             completed: false,
             description: "This is a card",
@@ -67,7 +67,7 @@ Card.create(
             due_date: Date.tomorrow.to_s
         },
         {
-            parent_id: 1,
+            card_table_id: 1,
             name: "Card Two",
             completed: true,
             description: "This is a completed card",
@@ -75,7 +75,7 @@ Card.create(
             due_date: Date.tomorrow.to_s
         },
         {
-            parent_id: 2,
+            card_table_id: 2,
             name: "Cat food",
             completed: false,
             description: "For the dog!",
@@ -83,7 +83,7 @@ Card.create(
             due_date: Date.tomorrow.to_s
         },
         {
-            parent_id: 2,
+            card_table_id: 2,
             name: "Bananas",
             completed: true,
             description: "Potassium is vital!",
@@ -91,7 +91,7 @@ Card.create(
             due_date: Date.tomorrow.to_s
         },
         {
-            parent_id: 2,
+            card_table_id: 2,
             name: "Apples",
             completed: false,
             description: "An apple a day, keeps ...",
@@ -99,7 +99,7 @@ Card.create(
             due_date: Date.tomorrow.to_s
         },
         {
-            parent_id: 2,
+            card_table_id: 2,
             name: "Coke",
             completed: false,
             description: "Best beverage!",
