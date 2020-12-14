@@ -2,7 +2,7 @@
   <div class="card-table">
     <div class="card-table-top">
       <!-- replace p tag with input tag if the p tag is clicked -->
-      <p class="card-title" v-if="!nameClicked" @click="toggleCardName">
+      <p class="card-title" v-if="!nameClicked" @click="toggleTableName">
         {{ model.name }}
       </p>
       <input
