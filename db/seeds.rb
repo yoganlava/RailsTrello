@@ -34,13 +34,6 @@ Board.create(
     ]
 )
 
-BoardAccess.create!([
-    {
-        user_id: 2,
-        board_id: 1
-    }
-])
-
 CardTable.create(
     [
         {
