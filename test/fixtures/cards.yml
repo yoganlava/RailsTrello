@@ -1,12 +1,12 @@
 # # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# one:
-#   parent_id: 
-#   name: MyString
-#   completed: false
-#   description: MyText
-#   priority: 
-#   due_date: 2020-11-12 07:48:44
+one:
+  card_table: one 
+  name: Example
+  completed: false
+  description: Example
+  priority: 0
+  due_date: 2020-11-12 07:48:44
 
 # two:
 #   parent_id: 

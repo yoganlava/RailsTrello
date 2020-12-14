@@ -43,7 +43,6 @@ export default {
   }),
   methods: {
     register: async function() {
-      console.log("Registered");
       let data = await ajaxRequest(
         "/user",
         {

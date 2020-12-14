@@ -2,14 +2,11 @@ module Api
   class CardController < ApplicationController
     # before_action :authenticate_user
     # before_action :set_card, only: [:show, :edit, :update, :destroy]
+    skip_before_action :verify_authenticity_token
 
     def get_cards
-      cards = Card.where(parent_id: params[:id]).order(:priority)
-      if cards == nil
-        render json: {error: "No cards"}, status: 404
-        return
-      end
-      render json: cards, status: 200
+      cards = Card.where(card_table_id: params[:id]).order(:priority)
+      render json: cards
       return
     end
 

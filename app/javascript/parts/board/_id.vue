@@ -82,7 +82,7 @@ export default {
     let hasAccessRes;
     try {
     hasAccessRes = await ajaxRequest(
-      `/board/has_access`,
+      `/board_access/has_access`,
       { board_id: this.boardID },
       "POST"
     );
@@ -108,15 +108,15 @@ export default {
     },
     async save() {
       this.loading = true;
-      await ajaxRequest("/save", this.board, "POST");
-      await ajaxRequest("/delete_tables", this.deletedTables, "POST");
-      await ajaxRequest("/delete_cards", this.deletedCards, "POST");
+      await ajaxRequest("/board/save", this.board, "POST");
+      await ajaxRequest("/card_table/delete_tables", this.deletedTables, "POST");
+      await ajaxRequest("/card/delete_cards", this.deletedCards, "POST");
       this.generateBoard();
       this.loading = false;
     },
     async generateBoard() {
       this.board = await ajaxRequest(
-        "/get_card_tables",
+        "/card_table/get_card_tables",
         {
           id: this.boardID,
         },
@@ -127,7 +127,7 @@ export default {
           table,
           "cards",
           await ajaxRequest(
-            "/get_cards",
+            "/card/get_cards",
             {
               id: table.id,
             },
@@ -141,7 +141,7 @@ export default {
       this.showModal = !this.showModal;
     },
     async deleteItem(item) {
-      if (await this.$dialog.confirm("Whould you like to delete this?")) {
+      if (await this.$dialog.confirm("Would you like to delete this?")) {
         if (item.board_id) {
           this.deletedTables.push(item);
           Vue.delete(this.board, this.board.indexOf(item));

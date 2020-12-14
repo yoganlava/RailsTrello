@@ -32,7 +32,7 @@ export default {
     },
     async addAccess() {
       let data = await ajaxRequest(
-        "/add_access",
+        "/board_access/add_access",
         {
             email: this.email,
             board_id: this.$route.params.id

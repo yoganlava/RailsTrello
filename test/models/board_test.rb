@@ -2,9 +2,15 @@ require 'test_helper'
 
 class BoardTest < ActiveSupport::TestCase
   test "successful board creation" do 
+    user = User.new
+    user.email = "example@example.com"
+    user.password = "password"
+
+    user.save
+
     board = Board.new
     board.name = "Example"
-    board.creator_id = 1
+    board.user = user
     board.color = "green"
     
     board.save
@@ -12,29 +18,49 @@ class BoardTest < ActiveSupport::TestCase
   end
 
   test "no name" do
+    user = User.new
+    user.email = "example@example.com"
+    user.password = "password"
+
+    user.save
+
     board = Board.new
-    board.creator_id = 1
+    board.user = user
     board.color = "green"
     
-    board.save
-    refute assert board.valid?
+    assert_raise do
+      board.save
+    end
   end
 
   test "no creator id" do
+    user = User.new
+    user.email = "example@example.com"
+    user.password = "password"
+
+    user.save
+
     board = Board.new
     board.name = "Example"
     board.color = "green"
     
-    board.save
-    refute assert board.valid?
+    assert_not board.save
+    
   end
 
   test "no colour" do 
+    user = User.new
+    user.email = "example@example.com"
+    user.password = "password"
+
+    user.save
+
     board = Board.new
     board.name = "Example"
-    board.creator_id = 1
+    board.user = user
     
-    board.save
-    refute board.valid?
+    assert_raise do
+      board.save
+    end
   end
 end

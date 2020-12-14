@@ -20,34 +20,17 @@
             Start Now!
           </h1>
         </div>
-        <button class="button is-link" @click="test">
+        <router-link class="button is-link" to="/register">
           Click here to sign up!
-        </button>
+        </router-link>
       </div>
     </section>
   </div>
 </template>
 <script>
 import Vue from "vue";
-import {toast} from 'bulma-toast';
-export default {
-  methods: {
-    test: function() {
-      toast({
-        message: "Hello There",
-        type: "is-success",
-        dismissible: true,
-      });
-      // Vue.$toasted.show("test")
-      // Vue.$toast.open({
-      //   message: "Testtststs",
-      //   type: "success",
-      //   position: "bottom-right"
-      // })
-      // Vue.toasted.show("one")
-    },
-  },
-};
+import { toast } from "bulma-toast";
+export default {};
 </script>
 
 <style scoped>

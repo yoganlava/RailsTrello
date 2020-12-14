@@ -19,14 +19,14 @@ Board.create(
     [
         {
             name: "Example board One",
-            creator: 1,
+            user_id: 1,
             color: "green",
             image: "",
             custom_url: "example"
         },
         {
             name: "Example board two",
-            creator: 1,
+            user_id: 1,
             color: "green",
             image: "https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1055&q=80",
             custom_url: "exampletwo"

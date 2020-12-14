@@ -1,6 +1,7 @@
 module Api
   class BoardController < ApplicationController
     before_action :authenticate_user, only: [:new, :create, :update, :get_user_boards]
+    skip_before_action :verify_authenticity_token
 
     def show
       board = Board.find_by(id: params[:id])
@@ -27,46 +28,19 @@ module Api
         end
         table[:cards].each do |card|
           if card[:id].nil?
-            saved_card = Card.new({parent_id: table[:id], name: card[:name], completed: card[:completed], description: card[:description], priority: card[:priority], due_date: card[:due_date]})
+            saved_card = Card.new({card_table_id: table[:id], name: card[:name], completed: card[:completed], description: card[:description], priority: card[:priority], due_date: card[:due_date]})
             saved_card.save
           else
             saved_card = Card.find_by(id: card[:id])
-            saved_card.update({parent_id: table[:id], name: card[:name], completed: card[:completed], description: card[:description], priority: card[:priority], due_date: card[:due_date]})
+            saved_card.update({card_table_id: table[:id], name: card[:name], completed: card[:completed], description: card[:description], priority: card[:priority], due_date: card[:due_date]})
           end
         end
       end
     end
 
-    def add_access
-      user = User.find_by(email: params[:email])
-      puts "USER"
-      puts user
-      puts "USER END"
-      if user.nil?
-        render json: {error: "No user found under that email"}
-        return
-      end
-      board = Board.find(params[:board_id].to_i)
-      if board.nil?
-        render json: {error: "Invalid board id"}
-        return
-      end
-      if board.creator.eql? user.id
-        render json: {error: "User is creator"}
-        return
-      end
-      access = BoardAccess.new({user_id: user.id, board_id: board.id})
-      begin
-        access.save
-        render json: {message: "User added"}
-      rescue Exception => e
-        render json: {error: "User already added"}
-      end
-    end
-
     def create
       args = board_params
-      args["creator"] = current_user.id
+      args["user_id"] = current_user.id
       @board = Board.new(args)
 
       begin
@@ -89,7 +63,7 @@ module Api
     private
 
     def board_params
-      params.require(:board).permit(:name, :custom_url, :color, :image, :private)
+      params.require(:board).permit(:name, :custom_url, :color, :image)
     end
 
   end

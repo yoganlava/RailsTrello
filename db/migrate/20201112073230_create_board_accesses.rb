@@ -1,8 +1,8 @@
 class CreateBoardAccesses < ActiveRecord::Migration[5.2]
   def change
     create_table :board_accesses do |t|
-      t.integer :user_id
-      t.integer :board_id
+      t.references :user, foreign_key: {on_delete: :cascade}
+      t.references :board, foreign_key: {on_delete: :cascade}
 
       t.timestamps
     end

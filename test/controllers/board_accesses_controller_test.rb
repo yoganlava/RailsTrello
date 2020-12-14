@@ -1,17 +1,20 @@
 require 'test_helper'
 
 class BoardAccessControllerTest < ActionDispatch::IntegrationTest
-  # setup do
-  #   @board_access = board_access(:one)
-  # end
+  setup do
+    @board = boards(:one)
+  end
 
-  # test "should get index" do
-  #   get board_access_url
-  #   assert_response :success
-  # end
+  test "check if user has access" do
+    sign_in()
+    post '/api/board_access/has_access', params: {board_id: @board.id}, headers: {'Authorization': "Bearer #{@token}"}
+    assert_equal "User has no access", JSON.parse(@response.body)["error"]
+  end
 
-  # test "should show board_access" do
-  #   get board_access_url(@board_access)
-  #   assert_response :success
-  # end
+  test "add access" do
+    sign_in()
+    post '/api/board_access/has_access', params: {email: "test@example.com", board_id: @board.id}, headers: {'Authorization': "Bearer #{@token}"}
+    assert_response :success
+  end
+
 end

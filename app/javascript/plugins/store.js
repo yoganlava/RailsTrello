@@ -24,7 +24,7 @@ const store = new Vuex.Store({
             }
             let res;
             try {
-                res = await ajaxRequest("/get_user_info", "GET");
+                res = await ajaxRequest("/user/get_user_info", "GET");
             } catch (e) {
                 commit("updateUserState", {
                     user: {},

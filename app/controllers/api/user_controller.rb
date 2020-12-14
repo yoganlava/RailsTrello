@@ -1,6 +1,8 @@
 module Api
   class UserController < ApplicationController
     before_action :authenticate_user, only: [:get_user_info]
+    skip_before_action :verify_authenticity_token
+
 
     def get_user_info
       user = User.select(:email, :created_at).find_by(id: current_user.id)
@@ -26,7 +28,7 @@ module Api
     end
 
     def get_user_boards
-      board = Board.where(creator: current_user.id)
+      board = Board.where(user_id: current_user.id)
       render json: board
     end
 

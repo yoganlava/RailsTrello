@@ -1,7 +1,7 @@
 class CreateCards < ActiveRecord::Migration[5.2]
   def change
     create_table :cards do |t|
-      t.integer :parent_id
+      t.references :card_table, foreign_key: {on_delete: :cascade}
       t.string :name
       t.boolean :completed
       t.text :description
@@ -11,8 +11,7 @@ class CreateCards < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_foreign_key :cards, :card_tables, column: :parent_id, on_delete: :cascade
-    change_column_null :cards, :parent_id, false
+    change_column_null :cards, :card_table_id, false
     change_column_null :cards, :name, false
     change_column_null :cards, :completed, false
     change_column_null :cards, :priority, false

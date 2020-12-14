@@ -3,28 +3,54 @@ require 'test_helper'
 class BoardAccessTest < ActiveSupport::TestCase
 
   test "valid access creation" do 
-    board_access = BoardAccess.new
-    board_access.user_id = 1
-    board_access.board_id = 1
+    user = User.new
+    user.email = "example@example.com"
+    user.password = "password"
 
-    board_access.save
-    assert board_access.valid?
+    user.save
+
+    board = Board.new
+    board.name = "Example"
+    board.user = user
+    board.color = "green"
+    
+    board.save
+
+    board_access = BoardAccess.new
+    board_access.user = user
+    board_access.board = board
+
+    assert board_access.save
+    # assert board_access.valid?
   end
 
   test "invalid access creation" do
+    user = User.new
+    user.email = "example@example.com"
+    user.password = "password"
+
+    user.save
+
+    board = Board.new
+    board.name = "Example"
+    board.user = user
+    board.color = "green"
+    
+    board.save
+
     board_access1 = BoardAccess.new
-    board_access1.user_id = 1
-    board_access1.board_id = 1
+    board_access1.user = user
+    board_access1.board = board
 
     board_access1.save
-    assert board_access1.valid?
     
     board_access2 = BoardAccess.new
-    board_access2.user_id = 1
-    board_access2.board_id = 1
+    board_access2.user = user
+    board_access2.board = board
 
-    board_access2.save
-    refute board_access2.valid?
+    assert_raise do
+      board_access2.save
+    end 
   end
 
 end

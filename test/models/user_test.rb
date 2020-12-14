@@ -16,21 +16,22 @@ class UserTest < ActiveSupport::TestCase
     user1.password = "password"
 
     user1.save
-    assert user1.valid?
 
     user2 = User.new
     user2.email = "example@example.com"
     user2.password = "password"
 
-    user2.save
-    refute user2.valid?
+    assert_raise do
+      user2.save
+    end
   end
 
   test 'no email' do
     user = User.new
     user.password = "password"
 
-    user.save
-    refute user1.valid?
+    assert_raise do
+      user.save
+    end
   end
 end

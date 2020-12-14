@@ -16,52 +16,60 @@ ActiveRecord::Schema.define(version: 2020_11_12_074844) do
   enable_extension "plpgsql"
 
   create_table "board_accesses", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "board_id"
+    t.bigint "user_id", null: false
+    t.bigint "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["board_id"], name: "index_board_accesses_on_board_id"
     t.index ["user_id", "board_id"], name: "index_board_accesses_on_user_id_and_board_id", unique: true
+    t.index ["user_id"], name: "index_board_accesses_on_user_id"
   end
 
   create_table "boards", force: :cascade do |t|
-    t.string "name"
-    t.integer "creator"
-    t.string "color"
+    t.string "name", null: false
+    t.bigint "user_id", null: false
+    t.string "color", null: false
     t.string "image"
     t.string "custom_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["custom_url"], name: "index_boards_on_custom_url", unique: true
-    t.index ["name", "creator"], name: "index_boards_on_name_and_creator", unique: true
+    t.index ["name", "user_id"], name: "index_boards_on_name_and_user_id", unique: true
+    t.index ["user_id"], name: "index_boards_on_user_id"
   end
 
   create_table "card_tables", force: :cascade do |t|
-    t.integer "board_id"
-    t.integer "column_index"
-    t.string "name"
+    t.bigint "board_id", null: false
+    t.integer "column_index", null: false
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["board_id"], name: "index_card_tables_on_board_id"
   end
 
   create_table "cards", force: :cascade do |t|
-    t.integer "parent_id"
-    t.string "name"
-    t.boolean "completed"
+    t.bigint "card_table_id", null: false
+    t.string "name", null: false
+    t.boolean "completed", null: false
     t.text "description"
-    t.integer "priority"
-    t.datetime "due_date"
+    t.integer "priority", null: false
+    t.datetime "due_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["card_table_id"], name: "index_cards_on_card_table_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email"
+    t.string "email", null: false
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "board_accesses", "boards", on_delete: :cascade
+  add_foreign_key "board_accesses", "users", on_delete: :cascade
+  add_foreign_key "boards", "users", on_delete: :cascade
   add_foreign_key "card_tables", "boards", on_delete: :cascade
-  add_foreign_key "cards", "card_tables", column: "parent_id", on_delete: :cascade
+  add_foreign_key "cards", "card_tables", on_delete: :cascade
 end

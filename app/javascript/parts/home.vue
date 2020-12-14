@@ -48,6 +48,8 @@ export default {
     PageLoader: () => import("./components/page-loader"),
   },
   async mounted() {
+    if (!this.$store.state.user.email)
+      this.$router.push("/")
     await this.generateBoards();
   },
   methods: {

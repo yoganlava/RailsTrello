@@ -13,7 +13,7 @@ class ContactMailerTest < ActionMailer::TestCase
     end
   end
 
-  test 'corrent to address' do
+  test 'correct to address' do
     @request.params[:name] = "Udeshya"
     @request.params[:message] = "Hello"
 

@@ -33,7 +33,7 @@ export default {
   }),
   methods: {
       send: async function() {
-        let res = await ajaxRequest("/mail", 
+        let res = await ajaxRequest("/mail/send_contact", 
         {
           name: this.name,
           message: this.message
