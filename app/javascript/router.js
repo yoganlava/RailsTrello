@@ -1,42 +1,42 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import store from "./store";
+import store from "./plugins/store";
 
 Vue.use(VueRouter);
 
 const routes = [{
         path: "/",
         component: () =>
-            import ("../parts/index"),
+            import ("./parts/index"),
     },
     {
         path: "/login",
         component: () =>
-            import ("../parts/login"),
+            import ("./parts/login"),
     },
     {
         path: "/register",
         component: () =>
-            import ("../parts/register"),
+            import ("./parts/register"),
     },
     {
         path: "/home",
         component: () =>
-            import ("../parts/home")
+            import ("./parts/home")
     },
     {
         path: "/board/:id",
         component: () =>
-            import ("../parts/board/_id"),
+            import ("./parts/board/_id"),
     },
     {
         path: "/contact",
         component: () =>
-            import ("../parts/contact"),
+            import ("./parts/contact"),
     },
 ];
 const router = new VueRouter({
-    // mode: "history",
+    mode: "history",
     routes
 });
 

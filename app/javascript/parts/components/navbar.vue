@@ -9,14 +9,16 @@
         class="navbar-burger burger"
         aria-label="menu"
         aria-expanded="false"
-        data-target="navbarBasicExample"
+        data-target="navbar"
+        :class="{'is-active': isActive}"
+        @click="toggle"
       >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div id="navbar" class="navbar-menu" :class="{'is-active': isActive}">
       <div class="navbar-start">
         <router-link
           v-if="$store.state.user.email"
@@ -55,12 +57,18 @@
 <script>
 import Cookies from "js-cookie";
 export default {
+  data: () => ({
+    isActive: false
+  }),
   methods: {
     async logout() {
       Cookies.remove("jwt");
       await this.$store.dispatch("updateUserStateAsync");
       this.$router.push("/");
     },
+    toggle() {
+      this.isActive = !this.isActive;
+    }
   },
 };
 </script>

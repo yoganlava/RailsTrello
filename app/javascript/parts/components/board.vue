@@ -40,6 +40,7 @@ export default {
 }
 
 .board-details {
+  overflow: hidden;
   font-weight: 400;
   padding-top: 5px;
   color: white;

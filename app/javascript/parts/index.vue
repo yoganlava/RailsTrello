@@ -10,7 +10,7 @@
             Use our service to organise and prioritise in a simple and fun way!
           </p>
         </div>
-        <img class="blurb-img" src="assets/images/blurb.png" alt="blurb" />
+        <img class="blurb-img" src="/assets/blurb.png" alt="blurb" />
       </div>
     </section>
     <section class="main">

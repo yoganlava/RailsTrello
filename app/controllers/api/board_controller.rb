@@ -45,17 +45,18 @@ module Api
     def create
       args = board_params
       args["user_id"] = current_user.id
-      if args["user_id"].nil? or args["name"].nil? or args["color"].nil?
+      if args["user_id"].nil? or args["name"].nil? or args["color"].nil? or args["custom_url"].nil?
         render json: {error: "Invalid parameters"}
         return
       end
-      @board = Board.new(args)
+      board = Board.new(args)
 
       begin
-        @board.save
+        board.save
         render json: {message: "Board created"}
       rescue Exception => e
-        render json: {error: "Try another name"}
+        puts e
+        render json: {error: "Try another name or custom url"}
       end
     end
 

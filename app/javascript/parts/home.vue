@@ -4,6 +4,7 @@
     <board-context-menu
       :board="selectedBoard"
       @deleteBoard="deleteBoard"
+      @refresh="generateBoards"
       ref="contextMenu"
     ></board-context-menu>
     <create-board-modal v-model="showModal"></create-board-modal>
@@ -57,7 +58,6 @@ export default {
       this.showModal = !this.showModal;
     },
     async generateBoards() {
-      console.log("call");
       this.loading = true;
       this.boards = await ajaxRequest("/user/get_user_boards", "GET");
       this.sharedBoards = await ajaxRequest("/user/get_shared_boards", "GET");

@@ -16,7 +16,7 @@
 
 import Vue from "vue";
 import App from "../app.vue";
-import router from "../plugins/router";
+import router from "../router";
 import store from "../plugins/store";
 import VueJsDialog from "../plugins/confirm";
 

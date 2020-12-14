@@ -13,7 +13,7 @@
         <input class="input" type="text" placeholder="Colour" v-model="color" />
         <p>Image Cover</p>
         <input class="input" type="text" placeholder="Cover" v-model="image" />
-        <p>Custom URL</p>
+        <p>Custom URL*</p>
         <input
           class="input"
           type="text"
@@ -45,7 +45,7 @@ export default {
       this.$emit("input", !this.value);
     },
     createBoard: async function() {
-      if (this.name == "" || this.color == ""){
+      if (this.name == "" || this.color == "" || this.custom_url == ""){
         toastData({error: "Fill in all the required fields"})
         return
       }
@@ -63,6 +63,8 @@ export default {
         "POST"
       );
       toastData(data);
+      this.toggle();
+      this.$emit("refresh");
     },
   },
 };
