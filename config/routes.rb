@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     get '/user/get_user_boards' => 'user#get_user_boards'
     get '/user/get_shared_boards' => 'user#get_shared_boards'
     get '/user/get_user_info' => 'user#get_user_info'
+    
     post '/card_table/delete_tables' => 'card_table#delete_tables'
     post '/card/delete_cards' => 'card#delete_cards'
     post '/board_access/add_access' => 'board_access#add_access'
