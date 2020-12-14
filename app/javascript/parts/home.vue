@@ -4,10 +4,10 @@
     <board-context-menu
       :board="selectedBoard"
       @deleteBoard="deleteBoard"
-      @refresh="generateBoards"
       ref="contextMenu"
     ></board-context-menu>
-    <create-board-modal v-model="showModal"></create-board-modal>
+      
+    <create-board-modal v-model="showModal" @refresh="generateBoards"></create-board-modal>
     <h1>Your boards</h1>
     <div class="board-list">
       <board

@@ -45,9 +45,17 @@ export default {
       this.$emit("input", !this.value);
     },
     createBoard: async function() {
-      if (this.name == "" || this.color == "" || this.custom_url == ""){
-        toastData({error: "Fill in all the required fields"})
-        return
+      if (this.name == "" || this.color == "" || this.custom_url == "") {
+        toastData({ error: "Fill in all the required fields" });
+        return;
+      }
+
+      var s = new Option().style;
+      s.color = this.color;
+
+      if (!(s.color == this.color)) {
+        toastData({ error: "Invalid Colour" });
+        return;
       }
 
       let data = await ajaxRequest(
