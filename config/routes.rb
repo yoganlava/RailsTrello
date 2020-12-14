@@ -18,8 +18,8 @@ Rails.application.routes.draw do
     resources :user
     resources :user_token
   end
-  get '/*other', to: 'static#index'
+  get '/*other', to: 'static#index', format: false
 
-  mount Vueonrails::Engine, at: 'vue'
+  # mount Vueonrails::Engine, at: 'vue'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

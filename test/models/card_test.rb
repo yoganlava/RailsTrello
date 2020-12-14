@@ -17,7 +17,7 @@ class CardTest < ActiveSupport::TestCase
     board.save
 
     card_table = CardTable.new
-    card_table.board_id = 1
+    card_table.board = board
     card_table.column_index = 0
     card_table.name = "Example"
 

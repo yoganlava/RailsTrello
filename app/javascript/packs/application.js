@@ -19,7 +19,6 @@ import App from "../app.vue";
 import router from "../plugins/router";
 import store from "../plugins/store";
 import VueJsDialog from "../plugins/confirm";
-console.log("Hello World from Webpacker");
 
 document.addEventListener("DOMContentLoaded", () => {
     const app = new Vue({
@@ -31,5 +30,4 @@ document.addEventListener("DOMContentLoaded", () => {
         },
     }).$mount();
     document.body.appendChild(app.$el);
-    console.log(app);
 });

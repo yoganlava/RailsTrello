@@ -45,6 +45,11 @@ export default {
       this.$emit("input", !this.value);
     },
     createBoard: async function() {
+      if (this.name == "" || this.color == ""){
+        toastData({error: "Fill in all the required fields"})
+        return
+      }
+
       let data = await ajaxRequest(
         "/board",
         {

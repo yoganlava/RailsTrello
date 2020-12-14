@@ -12,7 +12,7 @@ export default {
   props: ["board"],
   methods: {
     async deleteBoard() {
-      if (await this.$dialog.confirm("Whould you like to delete this board?")) {
+      if (await this.$dialog.confirm("Would you like to delete this board?")) {
         const res = await ajaxRequest(
           "/board/delete_board",
           this.board,

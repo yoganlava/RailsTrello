@@ -10,12 +10,16 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @board.name, JSON.parse(@response.body)["name"]
   end
 
-  test "test save board" do
-    
+  test "save board" do
+    sign_in()
+    post '/api/board/save', params: {}, headers: {'Authorization': "Bearer #{@token}"}
+    assert_response :success
   end
 
-  test "test create board" do
-    
+  test "create board" do
+    sign_in()
+    post '/api/board', params: {board:{name:""}}, headers: {'Authorization': "Bearer #{@token}"}
+    assert_response :success
   end
 
   test "delete board" do

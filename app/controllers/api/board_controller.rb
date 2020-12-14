@@ -17,6 +17,10 @@ module Api
     end
 
     def save_board
+      if params[:_json].nil?
+        render json: {error: "Invalid parameters"}
+        return
+      end
       params[:_json].each do |table|
         if table[:id].nil?
           card_table = CardTable.new({name: table[:name], column_index: table[:column_index], board_id: table[:board_id]})
@@ -41,6 +45,10 @@ module Api
     def create
       args = board_params
       args["user_id"] = current_user.id
+      if args["user_id"].nil? or args["name"].nil? or args["color"].nil?
+        render json: {error: "Invalid parameters"}
+        return
+      end
       @board = Board.new(args)
 
       begin
@@ -52,6 +60,10 @@ module Api
     end
 
     def delete_board
+      if params[:user_id].nil?
+        render json: {error: "Invalid parameters"}
+        return
+      end
       if !current_user.id.eql? params[:user_id]
         render json: {error: "Insufficient permissions"}
         return

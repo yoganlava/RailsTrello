@@ -31,6 +31,11 @@ export default {
       this.$emit("input", !this.value);
     },
     async addAccess() {
+      if (this.email == ""){
+          toastData({error: "Fill in all the required fields"})
+          return
+        }
+
       let data = await ajaxRequest(
         "/board_access/add_access",
         {
