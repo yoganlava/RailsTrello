@@ -3,20 +3,19 @@ module Api
     before_action :authenticate_user, only: [:get_user_info]
     skip_before_action :verify_authenticity_token
 
-
+    # Get user info as json. Used in frontend to verify if user is logged in
     def get_user_info
       user = User.select(:email, :created_at).find_by(id: current_user.id)
       render json: user
     end
 
-    # POST /users
-    # POST /users.json
+
+    # create user if email matches regex
     def create
       if not !!(user_params["email"] =~ /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i)
         render json: {error: "Invalid email"}, status: 200
         return
       end
-      user_params["verified"] = 0
       @user = User.new(user_params)
 
       begin
@@ -27,11 +26,13 @@ module Api
       end
     end
 
+    # get boards owned by user
     def get_user_boards
       board = Board.where(user_id: current_user.id)
       render json: board
     end
 
+    # get boards shared to the user
     def get_shared_boards
       boards = BoardAccess.where(user_id: current_user.id)
       render json: boards.map {|access| Board.find(access.board_id)}

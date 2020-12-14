@@ -4,6 +4,8 @@ import store from "./plugins/store";
 
 Vue.use(VueRouter);
 
+
+// All frontend routes
 const routes = [{
         path: "/",
         component: () =>
@@ -40,6 +42,7 @@ const router = new VueRouter({
     routes
 });
 
+// before each route, update user state to make sure we are still logged in
 router.beforeEach(async(to, from, next) => {
     await store.dispatch('updateUserStateAsync');
     next();

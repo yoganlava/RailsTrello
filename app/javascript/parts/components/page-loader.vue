@@ -1,4 +1,5 @@
 <template>
+<!-- simple page loader -->
   <div class="modal" :class="{ 'is-active': value }">
     <div class="modal-background"></div>
     <div class="spinner"></div>
@@ -18,7 +19,7 @@ export default {
   border-top: 16px solid #00d1b2;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
+  -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
 }
 

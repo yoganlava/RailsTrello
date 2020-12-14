@@ -3,6 +3,8 @@ module Api
     before_action :authenticate_user
     skip_before_action :verify_authenticity_token
 
+
+    # Adds a user to the list of people who can modify the board
     def add_access
       user = User.find_by(email: params[:email])
       if user.nil?
@@ -27,6 +29,7 @@ module Api
       end
     end
 
+    # Checks if user has access to a given board
     def has_access
       board_access = BoardAccess.find_by(user_id: current_user.id, board_id: params[:board_id])
       if board_access.nil?

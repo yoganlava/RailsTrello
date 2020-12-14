@@ -44,8 +44,9 @@ export default {
     password: "",
   }),
   methods: {
-    login: async function() {
-      console.log("Login");
+    // send login data to knock token controller and set returned jwt token as cookie
+    // if no token is returned, toast error message
+    async login() {
       try {
         let data = await ajaxRequest(
           "/user_token",

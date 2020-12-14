@@ -1,4 +1,9 @@
 <template>
+<!-- this router link turns into a div becuase of the attribute tag
+    the special ... spread operator is used in way that applies
+    a background image if it exists; however, if it doesn't exist,
+    it will use the background-color tag
+ -->
   <router-link
     :to="'/board/' + this.$vnode.key"
     tag="div"
@@ -12,6 +17,7 @@
       }),
     }"
   >
+  <!-- div that allows for right click to be prevented -->
     <div class="board-details" @contextmenu="openContextMenu($event)">
       <h2>{{ model.name }}</h2>
     </div>
@@ -22,6 +28,7 @@
 export default {
   props: ["model"],
   methods: {
+    // prevent default action of right click and call open context menu
     openContextMenu(event) {
       event.preventDefault();
       this.$emit("openContextMenu", event, this.model);

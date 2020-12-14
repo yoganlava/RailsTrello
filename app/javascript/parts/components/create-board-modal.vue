@@ -41,9 +41,12 @@ export default {
     image: "",
   }),
   methods: {
+    // toggle modal
     toggle: function() {
       this.$emit("input", !this.value);
     },
+    // send create board request only if name, color and custom_url are not empty and colour is valid
+    // then toast the output and refresh the boards
     createBoard: async function() {
       if (this.name == "" || this.color == "" || this.custom_url == "") {
         toastData({ error: "Fill in all the required fields" });

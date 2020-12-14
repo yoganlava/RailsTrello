@@ -42,7 +42,8 @@ export default {
     password: "",
   }),
   methods: {
-    register: async function() {
+    // send form to rails api and toast the output
+    async register() {
       let data = await ajaxRequest(
         "/user",
         {

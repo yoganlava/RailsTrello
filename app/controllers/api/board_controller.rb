@@ -3,6 +3,8 @@ module Api
     before_action :authenticate_user, only: [:new, :create, :update, :get_user_boards]
     skip_before_action :verify_authenticity_token
 
+
+    # return board as json
     def show
       board = Board.find_by(id: params[:id])
       if board.nil?
@@ -16,6 +18,9 @@ module Api
       return
     end
 
+
+    # Save board by looping throught json array of card tables and then looping through their own respective cards
+    # If they have no id, create a card/cardtable; however, if they have and id, do an update
     def save_board
       if params[:_json].nil?
         render json: {error: "Invalid parameters"}
@@ -42,9 +47,11 @@ module Api
       end
     end
 
+    # Create a board using params supplied by front end
     def create
       args = board_params
       args["user_id"] = current_user.id
+      # Simple validation
       if args["user_id"].nil? or args["name"].nil? or args["color"].nil? or args["custom_url"].nil?
         render json: {error: "Invalid parameters"}
         return
@@ -60,6 +67,8 @@ module Api
       end
     end
 
+
+    # Deletes board if user is creator
     def delete_board
       if params[:user_id].nil?
         render json: {error: "Invalid parameters"}

@@ -1,6 +1,7 @@
 <template>
   <div class="card-table">
     <div class="card-table-top">
+      <!-- replace p tag with input tag if the p tag is clicked -->
       <p class="card-title" v-if="!nameClicked" @click="toggleCardName">
         {{ model.name }}
       </p>
@@ -8,17 +9,19 @@
         type="text"
         v-model="model.name"
         v-else
-        v-on:keydown.enter="toggleCardName"
+        v-on:keydown.enter="toggleTableName"
       />
       <button class="delete" aria-label="close" @click="deleteTable"></button>
     </div>
     <div class="card-list">
+      <!-- make cards draggable, after being dragged around, allow for the priorities and position of the card to be updated-->
       <draggable
         :list="model.cards"
         group="cards"
         v-bind="dragOptions"
         @end="updateCardPriority"
       >
+      <!-- loop through cards and create div for each one -->
         <div
           v-for="(card, index) in model.cards"
           :key="index"
@@ -26,6 +29,7 @@
           @click="openCard($event, card)"
         >
           <p>{{ card.name }}</p>
+          <!-- calculation to calculate how many days left untile due_date -->
           <p>
             {{
               Math.ceil((new Date(card.due_date) - new Date()) / 86400000) <= 0
@@ -62,6 +66,7 @@ export default {
     nameClicked: false,
   }),
   methods: {
+    // create card client side
     createCard() {
       let size = Object.keys(this.model.cards).length;
       Vue.set(this.model.cards, size, {
@@ -72,17 +77,21 @@ export default {
         due_date: new Date().toISOString(),
       });
     },
+    // call open card function
     openCard(event, card) {
       if (event.target.className == "checkbox") return;
       this.$emit("openCard", card);
     },
+    // call update card function
     updateCardPriority() {
       this.$emit("updateCard", this.model.column_index);
     },
+    // call delete function
     deleteTable() {
       this.$emit("deleteTable", this.model);
     },
-    toggleCardName() {
+    // toggle input box from appearing if the name of the table has been clicked
+    toggleTableName() {
       this.nameClicked = !this.nameClicked;
     },
   },

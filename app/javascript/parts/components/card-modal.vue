@@ -34,21 +34,25 @@ export default {
     due_date: new Date(),
   }),
   methods: {
+    // toggle card info modal
     toggle() {
       this.$emit("input", !this.value);
     },
+    // save card details client side
     save() {
       Vue.set(this.card, "name", this.name);
       Vue.set(this.card, "description", this.description);
       Vue.set(this.card, "due_date", this.due_date);
       this.toggle();
     },
+    // call delete card function
     deleteCard() {
       this.$emit("deleteCard", this.card);
       this.toggle();
     }
   },
   watch: {
+    // create watch function that watches the value prop
     value: function() {
       this.name = this.card.name;
       this.description = this.card.description;

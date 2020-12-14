@@ -30,6 +30,7 @@ export default {
     message: "",
   }),
   methods: {
+    // send mail if the name and message fields are not empty
       async send() {
         if (this.name == "" || this.message == ""){
           toastData({error: "Fill in all the required fields"})
@@ -46,6 +47,7 @@ export default {
         toastData(res);
 
       },
+      // Send user to preview mail that uses input provided by user 
       preview() {
         if (this.name == "" || this.message == ""){
           toastData({error: "Fill in all the required fields"})

@@ -27,9 +27,11 @@ export default {
     email: "",
   }),
   methods: {
-    toggle: function() {
+    // toggle access modal
+    toggle() {
       this.$emit("input", !this.value);
     },
+    // send request to add board access if email is not empty and then toast the result
     async addAccess() {
       if (this.email == ""){
           toastData({error: "Fill in all the required fields"})

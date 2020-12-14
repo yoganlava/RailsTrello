@@ -20,6 +20,7 @@
     </div>
     <div id="navbar" class="navbar-menu" :class="{'is-active': isActive}">
       <div class="navbar-start">
+        <!-- only show Your boards if logged in -->
         <router-link
           v-if="$store.state.user.email"
           class="navbar-item"
@@ -32,6 +33,7 @@
         </router-link>
       </div>
       <div class="navbar-end">
+        <!-- only show sign up and login button when not logged in, else show logout -->
         <div v-if="!$store.state.user.email" class="navbar-item">
           <div class="buttons">
             <router-link to="/register" class="button is-primary">
@@ -61,11 +63,13 @@ export default {
     isActive: false
   }),
   methods: {
+    // remove token when logging out and update user state
     async logout() {
       Cookies.remove("jwt");
       await this.$store.dispatch("updateUserStateAsync");
       this.$router.push("/");
     },
+    // toggle mobile hamburger icon
     toggle() {
       this.isActive = !this.isActive;
     }

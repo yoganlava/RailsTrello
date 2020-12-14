@@ -11,6 +11,8 @@ import { ajaxRequest, toastData } from "../../plugins/utils";
 export default {
   props: ["board"],
   methods: {
+    // make sure we want to delete the board and then send the request to backend
+    // toast the data afterwards and delete clientside if successful
     async deleteBoard() {
       if (await this.$dialog.confirm("Would you like to delete this board?")) {
         const res = await ajaxRequest(
