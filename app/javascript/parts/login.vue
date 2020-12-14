@@ -74,6 +74,10 @@ export default {
   justify-content: center;
 }
 
+.field {
+  text-align: center;
+}
+
 .user-form {
   max-width: 500px;
   padding: 10px;
